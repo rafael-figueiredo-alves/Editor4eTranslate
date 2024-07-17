@@ -994,6 +994,27 @@ object FrmMain: TFrmMain
       Size.Height = 63.000000000000000000
       Size.PlatformDefault = False
     end
+    object Button1: TButton
+      Position.X = 456.000000000000000000
+      Position.Y = 24.000000000000000000
+      TabOrder = 0
+      Text = 'Button1'
+      OnClick = Button1Click
+    end
+    object Button2: TButton
+      Position.X = 584.000000000000000000
+      Position.Y = 24.000000000000000000
+      TabOrder = 1
+      Text = 'Button2'
+      OnClick = Button2Click
+    end
+    object Button3: TButton
+      Position.X = 696.000000000000000000
+      Position.Y = 24.000000000000000000
+      TabOrder = 2
+      Text = 'Button3'
+      OnClick = Button3Click
+    end
   end
   object GridJSON: TStringGrid
     Align = Client
@@ -1003,16 +1024,27 @@ object FrmMain: TFrmMain
     Margins.Top = 10.000000000000000000
     Margins.Right = 10.000000000000000000
     Margins.Bottom = 10.000000000000000000
-    Size.Width = 812.000000000000000000
+    Size.Width = 607.000000000000000000
     Size.Height = 479.000000000000000000
     Size.PlatformDefault = False
     TabOrder = 2
+    RowCount = 10
     Options = [Editing, ColumnResize, ColLines, RowLines, Tabs, Header, HeaderClick, AutoDisplacement]
-    Viewport.Width = 792.000000000000000000
+    Viewport.Width = 603.000000000000000000
     Viewport.Height = 454.000000000000000000
     object StringColumn1: TStringColumn
     end
     object StringColumn2: TStringColumn
     end
+  end
+  object TreeView1: TTreeView
+    Align = Left
+    Position.Y = 73.000000000000000000
+    Size.Width = 205.000000000000000000
+    Size.Height = 499.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 3
+    Viewport.Width = 201.000000000000000000
+    Viewport.Height = 495.000000000000000000
   end
 end

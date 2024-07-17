@@ -1,0 +1,18 @@
+{
+    "en-US" : {
+        "Main" : {
+            "Btn1" : "{0} from {1}",
+            "Btn2" : {
+		  "Text" : "Hello, World"
+		}
+        }
+    },
+    "pt-BR" : {
+        "Main" : {
+            "Btn1" : "{0} de {1}",
+            "Btn2" : {
+		  "Text" : "Olá, Mundo"
+		}
+        }
+    }
+}
