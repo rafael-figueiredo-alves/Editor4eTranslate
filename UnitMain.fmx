@@ -1090,6 +1090,34 @@ object FrmMain: TFrmMain
           Size.PlatformDefault = False
           OnClick = btnSobreClick
         end
+        object Rectangle1: TRectangle
+          Align = Left
+          CornerType = Bevel
+          Fill.Kind = None
+          Margins.Top = 10.000000000000000000
+          Margins.Right = 5.000000000000000000
+          Margins.Bottom = 10.000000000000000000
+          Position.X = 350.000000000000000000
+          Position.Y = 10.000000000000000000
+          Sides = [Left]
+          Size.Width = 3.000000000000000000
+          Size.Height = 40.000000000000000000
+          Size.PlatformDefault = False
+          Stroke.Color = xFF9E9C9C
+        end
+        object btnIdioma: TSpeedButton
+          Align = Left
+          Hint = 'Adicionar novo idioma'
+          Images = AssetsImages
+          ImageIndex = 8
+          Margins.Right = 10.000000000000000000
+          Position.X = 358.000000000000000000
+          Size.Width = 60.000000000000000000
+          Size.Height = 60.000000000000000000
+          Size.PlatformDefault = False
+          Text = 'btnIdioma'
+          OnClick = btnIdiomaClick
+        end
       end
     end
   end
@@ -1129,7 +1157,7 @@ object FrmMain: TFrmMain
             Images = AssetsImages
             ImageIndex = 6
             Margins.Right = 10.000000000000000000
-            Position.X = 209.000000000000000000
+            Position.X = 149.000000000000000000
             Size.Width = 50.000000000000000000
             Size.Height = 50.000000000000000000
             Size.PlatformDefault = False
@@ -1141,35 +1169,23 @@ object FrmMain: TFrmMain
             Images = AssetsImages
             ImageIndex = 7
             Margins.Right = 10.000000000000000000
-            Position.X = 149.000000000000000000
+            Position.X = 209.000000000000000000
             Size.Width = 50.000000000000000000
             Size.Height = 50.000000000000000000
             Size.PlatformDefault = False
             Text = 'SpeedButton1'
           end
           object btnAddForm: TSpeedButton
-            Align = Left
+            Align = Right
             Hint = 'Adiciona tela/p'#225'gina'
             Images = AssetsImages
             ImageIndex = 9
-            Margins.Left = 10.000000000000000000
-            Position.X = 10.000000000000000000
+            Margins.Right = 10.000000000000000000
+            Position.X = 89.000000000000000000
             Size.Width = 50.000000000000000000
             Size.Height = 50.000000000000000000
             Size.PlatformDefault = False
             OnClick = btnAddFormClick
-          end
-          object btnDeleteForm: TSpeedButton
-            Align = Left
-            Hint = 'Remove tela/p'#225'gina'
-            Images = AssetsImages
-            ImageIndex = 10
-            Margins.Left = 10.000000000000000000
-            Position.X = 70.000000000000000000
-            Size.Width = 50.000000000000000000
-            Size.Height = 50.000000000000000000
-            Size.PlatformDefault = False
-            Text = 'SpeedButton1'
           end
         end
         object tvEstrutura: TTreeView
@@ -1208,7 +1224,7 @@ object FrmMain: TFrmMain
             Images = AssetsImages
             ImageIndex = 7
             Margins.Right = 10.000000000000000000
-            Position.X = 368.000000000000000000
+            Position.X = 488.000000000000000000
             Size.Width = 50.000000000000000000
             Size.Height = 50.000000000000000000
             Size.PlatformDefault = False
@@ -1226,19 +1242,6 @@ object FrmMain: TFrmMain
             Size.PlatformDefault = False
             OnClick = btnAddValueClick
           end
-          object btnIdioma: TSpeedButton
-            Align = Right
-            Hint = 'Adicionar novo idioma'
-            Images = AssetsImages
-            ImageIndex = 8
-            Margins.Right = 10.000000000000000000
-            Position.X = 488.000000000000000000
-            Size.Width = 50.000000000000000000
-            Size.Height = 50.000000000000000000
-            Size.PlatformDefault = False
-            Text = 'btnIdioma'
-            OnClick = btnIdiomaClick
-          end
         end
         object GridTabela: TStringGrid
           Align = Client
@@ -1251,10 +1254,14 @@ object FrmMain: TFrmMain
           StyledSettings = [Family, Style, FontColor]
           TabOrder = 1
           RowCount = 0
+          OnEditingDone = GridTabelaEditingDone
           Viewport.Width = 544.000000000000000000
           Viewport.Height = 407.000000000000000000
           object ColChave: TStringColumn
+            HorzAlign = Leading
             Header = 'Chave'
+            ReadOnly = True
+            Size.Width = 217.000000000000000000
           end
         end
       end
@@ -1582,6 +1589,25 @@ object FrmMain: TFrmMain
           436F6C6F720708636C61426C61636B0C50726573736564436F6C6F720708636C
           61426C61636B000000}
       end>
+  end
+  object dlgAbrir: TOpenDialog
+    DefaultExt = '*.json'
+    Filter = 
+      'Arquivo de tradu'#231#227'o eTranslate|*.json|Arquivo de tradu'#231#227'o eTrans' +
+      'late 2|*.eTranslate'
+    Title = 'Abrir arquivo de tradu'#231#227'o eTranslate'
+    Left = 85
+    Top = 311
+  end
+  object dlgSalvar: TSaveDialog
+    DefaultExt = '*.json'
+    Filter = 
+      'Arquivo de tradu'#231#227'o eTranslate|*.json|Arquivo de tradu'#231#227'o eTrans' +
+      'late 2|*.eTranslate'
+    Options = [ofOverwritePrompt, ofHideReadOnly, ofEnableSizing]
+    Title = 'Salvar arquivo de tradu'#231#227'o eTranslate'
+    Left = 77
+    Top = 391
   end
   object AssetsImages: TImageList
     Source = <
@@ -2419,23 +2445,10 @@ object FrmMain: TFrmMain
     Left = 320
     Top = 128
   end
-  object dlgAbrir: TOpenDialog
-    DefaultExt = '*.json'
-    Filter = 
-      'Arquivo de tradu'#231#227'o eTranslate|*.json|Arquivo de tradu'#231#227'o eTrans' +
-      'late 2|*.eTranslate'
-    Title = 'Abrir arquivo de tradu'#231#227'o eTranslate'
-    Left = 85
-    Top = 311
-  end
-  object dlgSalvar: TSaveDialog
-    DefaultExt = '*.json'
-    Filter = 
-      'Arquivo de tradu'#231#227'o eTranslate|*.json|Arquivo de tradu'#231#227'o eTrans' +
-      'late 2|*.eTranslate'
-    Options = [ofOverwritePrompt, ofHideReadOnly, ofEnableSizing]
-    Title = 'Salvar arquivo de tradu'#231#227'o eTranslate'
-    Left = 77
-    Top = 391
+  object Timer1: TTimer
+    Interval = 1
+    OnTimer = Timer1Timer
+    Left = 361
+    Top = 190
   end
 end

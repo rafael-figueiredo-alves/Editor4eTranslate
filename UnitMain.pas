@@ -3,11 +3,29 @@ unit UnitMain;
 interface
 
 uses
-  System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
-  FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs,
-  FMX.Controls.Presentation, FMX.StdCtrls, FMX.Objects, FMX.Layouts, FMX.Menus,
-  FMX.TreeView, System.Rtti, FMX.Grid.Style, FMX.ScrollBox, FMX.Grid,
-  System.ImageList, FMX.ImgList;
+  System.SysUtils,
+  System.Types,
+  System.UITypes,
+  System.Classes,
+  System.Variants,
+  FMX.Types,
+  FMX.Controls,
+  FMX.Forms,
+  FMX.Graphics,
+  FMX.Dialogs,
+  FMX.Controls.Presentation,
+  FMX.StdCtrls,
+  FMX.Objects,
+  FMX.Layouts,
+  FMX.Menus,
+  FMX.TreeView,
+  System.Rtti,
+  FMX.Grid.Style,
+  FMX.ScrollBox,
+  FMX.Grid,
+  System.ImageList,
+  FMX.ImgList,
+  Editor4eTranslate.TranslateFile;
 
 type
   TFrmMain = class(TForm)
@@ -36,12 +54,13 @@ type
     btnDeleteNo: TSpeedButton;
     btnDeleteValue: TSpeedButton;
     btnAddValue: TSpeedButton;
-    btnIdioma: TSpeedButton;
     dlgAbrir: TOpenDialog;
     dlgSalvar: TSaveDialog;
     btnAddForm: TSpeedButton;
-    btnDeleteForm: TSpeedButton;
     ColChave: TStringColumn;
+    Rectangle1: TRectangle;
+    btnIdioma: TSpeedButton;
+    Timer1: TTimer;
     procedure btnNovoClick(Sender: TObject);
     procedure btnFecharClick(Sender: TObject);
     procedure btnSobreClick(Sender: TObject);
@@ -52,8 +71,11 @@ type
     procedure btnAddNoClick(Sender: TObject);
     procedure btnIdiomaClick(Sender: TObject);
     procedure btnAddValueClick(Sender: TObject);
+    procedure GridTabelaEditingDone(Sender: TObject; const ACol, ARow: Integer);
+    procedure Timer1Timer(Sender: TObject);
   private
     { Private declarations }
+    TranslateFile : iTranslateFile;
     procedure FecharArquivo;
     procedure CriarArquivo;
     procedure ObterInfoSobreApp;
@@ -64,12 +86,11 @@ type
 var
   FrmMain: TFrmMain;
 
-const NomeAplicativo = 'Editor4eTranslate';
-
 implementation
 
 uses
-  UnitAbout;
+  UnitAbout,
+  Editor4etranslate.Consts;
 
 {$R *.fmx}
 
@@ -92,9 +113,14 @@ procedure TFrmMain.btnAddFormClick(Sender: TObject);
 var
   item: TTreeViewItem;
 begin
-  item := TTreeViewItem.Create(nil);
-  item.Text := 'Teste';
-  item.Parent := tvEstrutura;
+  if(TranslateFile.AddScreen('Teste'))then
+   begin
+    item := TTreeViewItem.Create(nil);
+    item.Text := 'Teste';
+    item.Parent := tvEstrutura;
+   end
+  else
+   ShowMessage('Não é possível adicionar 2 ou mais telas com o mesmo nome.');
 end;
 
 procedure TFrmMain.btnAddNoClick(Sender: TObject);
@@ -109,20 +135,29 @@ end;
 procedure TFrmMain.btnAddValueClick(Sender: TObject);
 begin
   GridTabela.RowCount := GridTabela.RowCount + 1;
+  GridTabela.Cells[0, GridTabela.RowCount-1] := 'Teste';
 end;
 
 procedure TFrmMain.btnFecharClick(Sender: TObject);
 begin
   FecharArquivo;
+  TranslateFile := nil;
 end;
 
 procedure TFrmMain.btnIdiomaClick(Sender: TObject);
 var
   Idioma: TStringColumn;
 begin
-  Idioma := TStringColumn.Create(nil);
-  Idioma.Header := 'en-US';
-  Idioma.Parent := GridTabela;
+  if(TranslateFile.AddLanguage('en-US'))then
+   begin
+    Idioma := TStringColumn.Create(nil);
+    Idioma.Header := 'en-US';
+    Idioma.Parent := GridTabela;
+   end
+  else
+   ShowMessage('Não é possível adicionar idioma pois ele já existe no arquivo.');
+
+  ShowMessage(TranslateFile.GetJson);
 end;
 
 procedure TFrmMain.btnNovoClick(Sender: TObject);
@@ -137,6 +172,9 @@ begin
   btnSalvar.Enabled := true;
   btnSalvarComo.Enabled := true;
   btnFechar.Enabled := true;
+  btnIdioma.Enabled := true;
+  TranslateFile := TTranslateFile.New.NewFile('pt-BR');
+  ShowMessage(TranslateFile.GetJson);
 end;
 
 procedure TFrmMain.FecharArquivo;
@@ -146,6 +184,7 @@ begin
   btnSalvar.Enabled := false;
   btnSalvarComo.Enabled := false;
   btnFechar.Enabled := false;
+  btnIdioma.Enabled := false;
 end;
 
 procedure TFrmMain.FormCreate(Sender: TObject);
@@ -154,6 +193,13 @@ begin
   btnSalvar.Enabled := false;
   btnSalvarComo.Enabled := false;
   btnFechar.Enabled := false;
+  btnIdioma.Enabled := false;
+end;
+
+procedure TFrmMain.GridTabelaEditingDone(Sender: TObject; const ACol,
+  ARow: Integer);
+begin
+  ShowMessage(ARow.ToString());
 end;
 
 procedure TFrmMain.ObterInfoSobreApp;
@@ -164,6 +210,20 @@ begin
   finally
     FreeAndNil(FrmSobre);
   end;
+end;
+
+procedure TFrmMain.Timer1Timer(Sender: TObject);
+begin
+  if(tvEstrutura.Selected <> nil)then
+   begin
+     DivisorMain.Visible := True;
+     LytTabela.Visible := True;
+   end
+  else
+   begin
+     DivisorMain.Visible := false;
+     LytTabela.Visible := false;
+   end;
 end;
 
 procedure TFrmMain.btnSalvarComoClick(Sender: TObject);

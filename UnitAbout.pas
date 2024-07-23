@@ -16,6 +16,7 @@ type
     lytTitle: TLayout;
     mmInfo: TMemo;
     lbVersao: TSkLabel;
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
   public
@@ -27,6 +28,17 @@ var
 
 implementation
 
+Uses Editor4eTranslate.Consts;
+
 {$R *.fmx}
+
+procedure TFrmSobre.FormCreate(Sender: TObject);
+const
+   LabelNomeAplicativo = 0;
+   LabelVersao         = 1;
+begin
+  lbVersao.Words.Items[LabelNomeAplicativo].Text := NomeAplicativo;
+  lbVersao.Words.Items[LabelVersao].Text         := VersaoAplicativo;
+end;
 
 end.
