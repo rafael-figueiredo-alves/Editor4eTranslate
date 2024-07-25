@@ -9,6 +9,7 @@ object FrmMain: TFrmMain
   FormFactor.Height = 480
   FormFactor.Devices = [Desktop]
   OnCreate = FormCreate
+  OnClose = FormClose
   DesignerMasterStyle = 0
   object pnlTopo: TPanel
     Align = Top
@@ -1257,12 +1258,6 @@ object FrmMain: TFrmMain
           OnEditingDone = GridTabelaEditingDone
           Viewport.Width = 544.000000000000000000
           Viewport.Height = 407.000000000000000000
-          object ColChave: TStringColumn
-            HorzAlign = Leading
-            Header = 'Chave'
-            ReadOnly = True
-            Size.Width = 217.000000000000000000
-          end
         end
       end
     end
@@ -1608,6 +1603,12 @@ object FrmMain: TFrmMain
     Title = 'Salvar arquivo de tradu'#231#227'o eTranslate'
     Left = 77
     Top = 391
+  end
+  object TimerVisibilidadeGridTreeView: TTimer
+    Interval = 1
+    OnTimer = TimerVisibilidadeGridTreeViewTimer
+    Left = 361
+    Top = 190
   end
   object AssetsImages: TImageList
     Source = <
@@ -2444,11 +2445,5 @@ object FrmMain: TFrmMain
       end>
     Left = 320
     Top = 128
-  end
-  object Timer1: TTimer
-    Interval = 1
-    OnTimer = Timer1Timer
-    Left = 361
-    Top = 190
   end
 end

@@ -57,10 +57,9 @@ type
     dlgAbrir: TOpenDialog;
     dlgSalvar: TSaveDialog;
     btnAddForm: TSpeedButton;
-    ColChave: TStringColumn;
     Rectangle1: TRectangle;
     btnIdioma: TSpeedButton;
-    Timer1: TTimer;
+    TimerVisibilidadeGridTreeView: TTimer;
     procedure btnNovoClick(Sender: TObject);
     procedure btnFecharClick(Sender: TObject);
     procedure btnSobreClick(Sender: TObject);
@@ -72,13 +71,16 @@ type
     procedure btnIdiomaClick(Sender: TObject);
     procedure btnAddValueClick(Sender: TObject);
     procedure GridTabelaEditingDone(Sender: TObject; const ACol, ARow: Integer);
-    procedure Timer1Timer(Sender: TObject);
+    procedure TimerVisibilidadeGridTreeViewTimer(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     { Private declarations }
     TranslateFile : iTranslateFile;
     procedure FecharArquivo;
     procedure CriarArquivo;
     procedure ObterInfoSobreApp;
+    procedure SetVisibleComponents(const value: boolean);
+    procedure SetFrmMainCaption(const FileName: string = '');
   public
     { Public declarations }
   end;
@@ -94,13 +96,57 @@ uses
 
 {$R *.fmx}
 
+{$REGION 'Métodos Privados'}
+procedure TFrmMain.CriarArquivo;
+begin
+  SetFrmMainCaption('Sem título');
+  SetVisibleComponents(true);
+  TranslateFile := TTranslateFile.New(tvEstrutura, GridTabela).NewFile('pt-BR');
+  ShowMessage(TranslateFile.GetJson);
+end;
+
+procedure TFrmMain.FecharArquivo;
+begin
+  SetFrmMainCaption('');
+  SetVisibleComponents(false);
+  TranslateFile := nil;
+end;
+
+procedure TFrmMain.ObterInfoSobreApp;
+begin
+  FrmSobre := TFrmSobre.Create(Application);
+  try
+    FrmSobre.ShowModal;
+  finally
+    FreeAndNil(FrmSobre);
+  end;
+end;
+
+procedure TFrmMain.SetFrmMainCaption(const FileName: string);
+begin
+  if FileName = EmptyStr then
+   FrmMain.Caption := NomeAplicativo
+  else
+   FrmMain.Caption := NomeAplicativo + ' - [' + FileName + ']';
+end;
+
+procedure TFrmMain.SetVisibleComponents(const value: boolean);
+begin
+  lytMain.Visible       := value;
+  btnSalvar.Enabled     := value;
+  btnSalvarComo.Enabled := value;
+  btnFechar.Enabled     := value;
+  btnIdioma.Enabled     := value;
+end;
+{$ENDREGION}
+
 procedure TFrmMain.btnAbrirClick(Sender: TObject);
 begin
   if dlgAbrir.Execute then
    begin
      if dlgAbrir.FileName <> EmptyStr then
       begin
-        FrmMain.Caption := NomeAplicativo + ' - [' + ExtractFileName(dlgAbrir.FileName) + ']';
+        SetFrmMainCaption(ExtractFileName(dlgAbrir.FileName));
         lytMain.Visible := true;
         btnSalvar.Enabled := true;
         btnSalvarComo.Enabled := true;
@@ -141,20 +187,13 @@ end;
 procedure TFrmMain.btnFecharClick(Sender: TObject);
 begin
   FecharArquivo;
-  TranslateFile := nil;
 end;
 
 procedure TFrmMain.btnIdiomaClick(Sender: TObject);
 var
   Idioma: TStringColumn;
 begin
-  if(TranslateFile.AddLanguage('en-US'))then
-   begin
-    Idioma := TStringColumn.Create(nil);
-    Idioma.Header := 'en-US';
-    Idioma.Parent := GridTabela;
-   end
-  else
+  if( not TranslateFile.AddLanguage('en-US'))then
    ShowMessage('Não é possível adicionar idioma pois ele já existe no arquivo.');
 
   ShowMessage(TranslateFile.GetJson);
@@ -165,35 +204,15 @@ begin
    CriarArquivo;
 end;
 
-procedure TFrmMain.CriarArquivo;
+procedure TFrmMain.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-  FrmMain.Caption := NomeAplicativo + ' - [Sem Titulo]';
-  lytMain.Visible := true;
-  btnSalvar.Enabled := true;
-  btnSalvarComo.Enabled := true;
-  btnFechar.Enabled := true;
-  btnIdioma.Enabled := true;
-  TranslateFile := TTranslateFile.New.NewFile('pt-BR');
-  ShowMessage(TranslateFile.GetJson);
-end;
-
-procedure TFrmMain.FecharArquivo;
-begin
-  FrmMain.Caption := NomeAplicativo;
-  lytMain.Visible := false;
-  btnSalvar.Enabled := false;
-  btnSalvarComo.Enabled := false;
-  btnFechar.Enabled := false;
-  btnIdioma.Enabled := false;
+  if(Assigned(TranslateFile))then
+    TranslateFile := nil;
 end;
 
 procedure TFrmMain.FormCreate(Sender: TObject);
 begin
-  lytMain.Visible := false;
-  btnSalvar.Enabled := false;
-  btnSalvarComo.Enabled := false;
-  btnFechar.Enabled := false;
-  btnIdioma.Enabled := false;
+  SetVisibleComponents(false);
 end;
 
 procedure TFrmMain.GridTabelaEditingDone(Sender: TObject; const ACol,
@@ -202,17 +221,7 @@ begin
   ShowMessage(ARow.ToString());
 end;
 
-procedure TFrmMain.ObterInfoSobreApp;
-begin
-  FrmSobre := TFrmSobre.Create(Application);
-  try
-    FrmSobre.ShowModal;
-  finally
-    FreeAndNil(FrmSobre);
-  end;
-end;
-
-procedure TFrmMain.Timer1Timer(Sender: TObject);
+procedure TFrmMain.TimerVisibilidadeGridTreeViewTimer(Sender: TObject);
 begin
   if(tvEstrutura.Selected <> nil)then
    begin
