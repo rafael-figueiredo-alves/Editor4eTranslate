@@ -1255,7 +1255,6 @@ object FrmMain: TFrmMain
           StyledSettings = [Family, Style, FontColor]
           TabOrder = 1
           RowCount = 0
-          OnEditingDone = GridTabelaEditingDone
           Viewport.Width = 544.000000000000000000
           Viewport.Height = 407.000000000000000000
         end

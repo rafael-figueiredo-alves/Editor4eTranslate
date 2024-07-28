@@ -14,6 +14,8 @@ type
    Function NewFile(const DefaultLanguage: string): iTranslateFile;
    Function AddLanguage(const NewLanguage: string): boolean;
    Function AddScreen(const NewScreen: string): boolean;
+   function AddItemOrSubitemToScreen(const Name: string): boolean;
+   function AddNewStringKey(const key: string): iTranslateFile;
    Function GetJson: string;
  end;
 
@@ -27,10 +29,15 @@ type
      Screens   : TList<string>;
      procedure ChangeSelectedItem(sender: TObject);
      procedure AddLanguageColumn(const Language: string);
+     procedure AddObjectToJson(const Key: string; path: string = '');
+     procedure AddValueToJson(const key, Value, path: string);
+     procedure GridEditDone(Sender: TObject; const ACol, ARow: Integer);
    public
      Function NewFile(const DefaultLanguage: string): iTranslateFile;
      Function AddLanguage(const NewLanguage: string): boolean;
      Function AddScreen(const NewScreen: string): boolean;
+     function AddItemOrSubitemToScreen(const Name: string): boolean;
+     function AddNewStringKey(const key: string): iTranslateFile;
      Function GetJson: string;
      Constructor Create(const TreeView: TTreeView; Grid: TStringGrid);
      Destructor Destroy; override;
@@ -40,97 +47,24 @@ type
 implementation
 
 uses
-  System.SysUtils, Editor4eTranslate.JsonObjectHelper, FMX.Dialogs,
+  System.SysUtils,
+  Editor4eTranslate.JsonObjectHelper,
+  Editor4eTranslate.Shared,
+  FMX.Dialogs,
   System.Classes;
 
 { TTranslateFile }
 
-function GetNodePath(Node: TTreeViewItem): string;
-begin
-  Result := '';
-  while Node <> nil do
-  begin
-    Result := Node.Text + '.' + Result;
-    Node := Node.ParentItem;
-  end;
-  // Remova o ponto final, se houver
-  if Result <> '' then
-    Delete(Result, Length(Result), 1);
-end;
-
-function GetStringContentFromFile(const FilePath: string) : string;
+function TTranslateFile.AddItemOrSubitemToScreen(const Name: string): boolean;
 var
-  StringListFile : TStringList;
+  item: TTreeViewItem;
 begin
-  StringListFile := TStringList.Create;
-  try
-    try
-      if (FilePath = EmptyStr) then
-         raise Exception.Create('It was not possible to read translation file.');
-      StringListFile.LoadFromFile(FilePath, TEncoding.UTF8);
-      Result := StringListFile.Text;
-    except
-      raise Exception.Create('It was not possible to read translation file.');
-    end;
-  finally
-    FreeAndNil(StringListFile);
-  end;
-end;
-
-function GetJSONObjectFromFile(const FilePath: string) : TJSONObject;
-var
- Content : string;
-begin
-  Content := GetStringContentFromFile(FilePath);
-  {$IFDEF FPC}
-    Result := GetJSONData(Content) As TJSONObject;
-  {$ELSE}
-    Result := TJSONObject.ParseJSONValue(TEncoding.UTF8.GetBytes(Content), 0) As TJSONObject;
-  {$ENDIF}
-end;
-
-procedure ClearJSONStrings(JSONObj: TJSONObject);
-var
-  i: Integer;
-  subitem: TTreeViewItem;
-begin
-  for i := 0 to JSONObj.Count - 1 do
-  begin
-    if JSONObj.Pairs[i].JsonValue is TJSONObject then
-    begin
-      ClearJSONStrings(TJSONObject(jsonObj.Pairs[i].JsonValue));
-    end
-    else
-    if JSONObj.Pairs[i].JsonValue is TJSONString then
-     JSONObj.Pairs[i].JsonValue := TJSONString.Create(EmptyStr);
-  end;
-end;
-
-function GetLanguages(const JSONObj: TJSONObject): TList<string>;
-var
-  item: TJSONPair;
-begin
-  Result := TList<string>.create;
-  for item in JSONObj do
+  if Assigned(FileTree.Selected) and not VerificarItemTreeViewItem(FileTree.Selected, Name) then
    begin
-     if(item.JsonValue is TJSONObject)then
-      Result.Add(item.JsonString.ToString().Trim(['"']));
-   end;
-end;
-
-function VerificarItemTreeView(Const TreeView: TTreeView; const Texto: string): boolean;
-var
-  Nodo: TTreeViewItem;
-  item: integer;
-begin
-  Result := false;
-  for item := 0 to TreeView.Count-1 do
-   begin
-     if(SameText(TreeView.Items[item].Text, Texto))then
-        begin
-          Result := true;
-          Exit;
-        end;
+     AddObjectToJson(Name, NodePath);
+     item := TTreeViewItem.Create(nil);
+     item.Text := Name;
+     item.Parent := FileTree.Selected;
    end;
 end;
 
@@ -140,8 +74,11 @@ var
 begin
   if(not JsonFile.TryGetValue<TJSONValue>(NewLanguage, LanguageObject))then
    begin
-    JsonFile.AddPair(NewLanguage, TJSONObject.Create);
+    JsonFile.AddKeyObject(NewLanguage);
     AddLanguageColumn(NewLanguage);
+    if JsonFile.Count > 1 then
+     JsonFile.CopyStructureTo(NewLanguage);
+
     Result := true;
    end
   else
@@ -158,40 +95,52 @@ begin
   Column.Width := 400;
 end;
 
-function TTranslateFile.AddScreen(const NewScreen: string): Boolean;
+function TTranslateFile.AddNewStringKey(const key: string): iTranslateFile;
+begin
+  Result := self;
+  FileGrid.RowCount := FileGrid.RowCount + 1;
+  FileGrid.Cells[0, FileGrid.RowCount-1] := key;
+end;
+
+procedure TTranslateFile.AddObjectToJson(const Key: string; path: string);
 var
   Languages : TList<string>;
   Language  : string;
+begin
+   try
+     Languages := GetLanguages(JsonFile);
+
+     for Language in Languages do
+      begin
+        if(path = EmptyStr)then
+          JsonFile.Key(Language).AddKeyObject(key)
+        else
+          JsonFile.Key(Language + '.' + path).AddKeyObject(key);
+      end;
+   finally
+     FreeAndNil(Languages);
+   end;
+end;
+
+function TTranslateFile.AddScreen(const NewScreen: string): Boolean;
+var
+  item: TTreeViewItem;
 begin
   if(VerificarItemTreeView(FileTree, NewScreen))then
    Result := False
   else
    begin
-     try
-       Languages := GetLanguages(JsonFile);
-       showmessage(Languages.Count.ToString);
-       for Language in Languages do
-        begin
-          JsonFile.Key(Language).AddPair(NewScreen, TJSONObject.Create);
-        end;
-       Result := true;
-     finally
-       FreeAndNil(Languages);
-     end;
+     AddObjectToJson(NewScreen);
+     item := TTreeViewItem.Create(nil);
+     item.Text := NewScreen;
+     item.Parent := FileTree;
+     Result := true;
    end;
+end;
 
-
-//  if(not Screens.Contains(NewScreen))then
-//   begin
-//    Screens.Add(NewScreen);
-//    for Language in Languages do
-//     begin
-//       JsonFile.Key(Language).AddPair(NewScreen, TJSONObject.Create);
-//     end;
-//    Result := true;
-//   end
-//  else
-//   Result := false;
+procedure TTranslateFile.AddValueToJson(const key, Value, path: string);
+begin
+  JsonFile.Key(key).AddKeyString(key, Value);
 end;
 
 procedure TTranslateFile.ChangeSelectedItem(sender: TObject);
@@ -213,6 +162,7 @@ begin
   FileTree  := TreeView;
   FileTree.OnChange := ChangeSelectedItem;
   FileGrid  := Grid;
+  FileGrid.OnEditingDone := GridEditDone;
 
   Column := TStringColumn.Create(FileGrid);
   Column.Header := 'Chave/Key';
@@ -237,6 +187,11 @@ end;
 function TTranslateFile.GetJson: string;
 begin
   Result := JsonFile.ToString();
+end;
+
+procedure TTranslateFile.GridEditDone(Sender: TObject; const ACol,ARow: Integer);
+begin
+  ShowMessage(ARow.ToString() + ', ' + ACol.ToString);
 end;
 
 class function TTranslateFile.New(const TreeView: TTreeView; Grid: TStringGrid): iTranslateFile;

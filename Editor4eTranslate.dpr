@@ -8,7 +8,8 @@ uses
   UnitAbout in 'UnitAbout.pas' {FrmSobre},
   Editor4eTranslate.Consts in 'Editor4eTranslate.Consts.pas',
   Editor4eTranslate.TranslateFile in 'Editor4eTranslate.TranslateFile.pas',
-  Editor4eTranslate.JsonObjectHelper in 'Editor4eTranslate.JsonObjectHelper.pas';
+  Editor4eTranslate.JsonObjectHelper in 'Editor4eTranslate.JsonObjectHelper.pas',
+  Editor4eTranslate.Shared in 'Editor4eTranslate.Shared.pas';
 
 {$R *.res}
 

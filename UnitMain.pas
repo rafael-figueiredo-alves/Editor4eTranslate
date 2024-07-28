@@ -70,7 +70,6 @@ type
     procedure btnAddNoClick(Sender: TObject);
     procedure btnIdiomaClick(Sender: TObject);
     procedure btnAddValueClick(Sender: TObject);
-    procedure GridTabelaEditingDone(Sender: TObject; const ACol, ARow: Integer);
     procedure TimerVisibilidadeGridTreeViewTimer(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
@@ -156,32 +155,19 @@ begin
 end;
 
 procedure TFrmMain.btnAddFormClick(Sender: TObject);
-var
-  item: TTreeViewItem;
 begin
-  if(TranslateFile.AddScreen('Teste'))then
-   begin
-    item := TTreeViewItem.Create(nil);
-    item.Text := 'Teste';
-    item.Parent := tvEstrutura;
-   end
-  else
+  if not TranslateFile.AddScreen('Teste') then
    ShowMessage('Não é possível adicionar 2 ou mais telas com o mesmo nome.');
 end;
 
 procedure TFrmMain.btnAddNoClick(Sender: TObject);
-var
-  item: TTreeViewItem;
 begin
-  item := TTreeViewItem.Create(nil);
-  item.Text := 'Teste';
-  item.Parent := tvEstrutura.Selected;
+  TranslateFile.AddItemOrSubitemToScreen('Teste');
 end;
 
 procedure TFrmMain.btnAddValueClick(Sender: TObject);
 begin
-  GridTabela.RowCount := GridTabela.RowCount + 1;
-  GridTabela.Cells[0, GridTabela.RowCount-1] := 'Teste';
+  TranslateFile.AddNewStringKey('Meu teste');
 end;
 
 procedure TFrmMain.btnFecharClick(Sender: TObject);
@@ -208,17 +194,12 @@ procedure TFrmMain.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   if(Assigned(TranslateFile))then
     TranslateFile := nil;
+  tvEstrutura.FreeOnRelease;
 end;
 
 procedure TFrmMain.FormCreate(Sender: TObject);
 begin
   SetVisibleComponents(false);
-end;
-
-procedure TFrmMain.GridTabelaEditingDone(Sender: TObject; const ACol,
-  ARow: Integer);
-begin
-  ShowMessage(ARow.ToString());
 end;
 
 procedure TFrmMain.TimerVisibilidadeGridTreeViewTimer(Sender: TObject);
@@ -227,11 +208,15 @@ begin
    begin
      DivisorMain.Visible := True;
      LytTabela.Visible := True;
+     btnAddNo.Enabled  := True;
+     btnDeleteNo.Enabled := true;
    end
   else
    begin
      DivisorMain.Visible := false;
      LytTabela.Visible := false;
+     btnAddNo.Enabled  := false;
+     btnDeleteNo.Enabled := false;
    end;
 end;
 

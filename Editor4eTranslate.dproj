@@ -204,6 +204,7 @@
         <DCCReference Include="Editor4eTranslate.Consts.pas"/>
         <DCCReference Include="Editor4eTranslate.TranslateFile.pas"/>
         <DCCReference Include="Editor4eTranslate.JsonObjectHelper.pas"/>
+        <DCCReference Include="Editor4eTranslate.Shared.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
