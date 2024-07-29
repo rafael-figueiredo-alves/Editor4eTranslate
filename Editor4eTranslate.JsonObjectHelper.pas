@@ -30,21 +30,20 @@ Uses
 
 { tJSONObject }
 
-function RemoveQuotes(const text: string) : string;
-begin
- Result := text.Replace('"', '');
- Result := Result.TrimLeft;
- Result := Result.TrimRight;
-end;
-
 function TJSONObjectHelper.AddKeyObject(const key: string): TJSONObject;
 begin
   Result := AddPair(key, TJSONObject.Create);
 end;
 
 function TJSONObjectHelper.AddKeyString(const key, value: string): TJSONObject;
+var
+  JsonPair : TJSONPair;
 begin
-  Result := AddPair(key, TJSONString.Create(value));
+  JsonPair := Pair(key);
+  if(JsonPair <> nil)then
+    JsonPair.JsonValue := TJSONString.Create(value)
+  else
+    Result := AddPair(key, TJSONString.Create(value));
 end;
 
 function TJSONObjectHelper.CopyStructureTo(const Key: string): TJSONObject;
@@ -72,6 +71,7 @@ function TJSONObjectHelper.Pair(const key: string): TJSONPair;
 var
   index: integer;
 begin
+  Result := nil;
   for index := 0 to Count - 1 do
    begin
      if RemoveQuotes(Pairs[index].JsonString.ToString) = key then

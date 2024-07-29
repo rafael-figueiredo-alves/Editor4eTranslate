@@ -1175,6 +1175,7 @@ object FrmMain: TFrmMain
             Size.Height = 50.000000000000000000
             Size.PlatformDefault = False
             Text = 'SpeedButton1'
+            OnClick = btnDeleteNoClick
           end
           object btnAddForm: TSpeedButton
             Align = Right

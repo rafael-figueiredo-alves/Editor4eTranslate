@@ -14,12 +14,21 @@ procedure ClearJSONStrings(JSONObj: TJSONObject);
 function GetLanguages(const JSONObj: TJSONObject): TList<string>;
 function VerificarItemTreeView(Const TreeView: TTreeView; const Texto: string): boolean;
 function VerificarItemTreeViewItem(Const TreeViewItem: TTreeViewItem; const Texto: string): boolean;
+function RemoveQuotes(const text: string) : string;
 
 
 implementation
 
 uses
-  System.Classes, System.SysUtils;
+  System.Classes,
+  System.SysUtils;
+
+function RemoveQuotes(const text: string) : string;
+begin
+ Result := text.Replace('"', '');
+ Result := Result.TrimLeft;
+ Result := Result.TrimRight;
+end;
 
 function GetNodePath(Node: TTreeViewItem): string;
 begin

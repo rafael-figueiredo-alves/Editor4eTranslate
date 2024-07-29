@@ -72,6 +72,7 @@ type
     procedure btnAddValueClick(Sender: TObject);
     procedure TimerVisibilidadeGridTreeViewTimer(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure btnDeleteNoClick(Sender: TObject);
   private
     { Private declarations }
     TranslateFile : iTranslateFile;
@@ -168,6 +169,11 @@ end;
 procedure TFrmMain.btnAddValueClick(Sender: TObject);
 begin
   TranslateFile.AddNewStringKey('Meu teste');
+end;
+
+procedure TFrmMain.btnDeleteNoClick(Sender: TObject);
+begin
+  TranslateFile.RemoveScreenItemOrSubitem;
 end;
 
 procedure TFrmMain.btnFecharClick(Sender: TObject);
