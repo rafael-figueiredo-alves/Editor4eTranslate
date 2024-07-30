@@ -73,6 +73,7 @@ type
     procedure TimerVisibilidadeGridTreeViewTimer(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure btnDeleteNoClick(Sender: TObject);
+    procedure btnDeleteValueClick(Sender: TObject);
   private
     { Private declarations }
     TranslateFile : iTranslateFile;
@@ -147,10 +148,8 @@ begin
      if dlgAbrir.FileName <> EmptyStr then
       begin
         SetFrmMainCaption(ExtractFileName(dlgAbrir.FileName));
-        lytMain.Visible := true;
-        btnSalvar.Enabled := true;
-        btnSalvarComo.Enabled := true;
-        btnFechar.Enabled := true;
+        SetVisibleComponents(true);
+        TranslateFile := TTranslateFile.New(tvEstrutura, GridTabela).OpenFile(dlgAbrir.FileName);
       end;
    end;
 end;
@@ -168,12 +167,20 @@ end;
 
 procedure TFrmMain.btnAddValueClick(Sender: TObject);
 begin
-  TranslateFile.AddNewStringKey('Meu teste');
+  TranslateFile.AddNewStringKey('Valor1');
+  TranslateFile.AddNewStringKey('Valor2');
+  TranslateFile.AddNewStringKey('Valor3');
+  TranslateFile.AddNewStringKey('Valor4');
 end;
 
 procedure TFrmMain.btnDeleteNoClick(Sender: TObject);
 begin
   TranslateFile.RemoveScreenItemOrSubitem;
+end;
+
+procedure TFrmMain.btnDeleteValueClick(Sender: TObject);
+begin
+  TranslateFile.RemoveStringKey;
 end;
 
 procedure TFrmMain.btnFecharClick(Sender: TObject);
@@ -224,6 +231,8 @@ begin
      btnAddNo.Enabled  := false;
      btnDeleteNo.Enabled := false;
    end;
+
+   btnDeleteValue.Enabled := ((GridTabela.RowCount > 0) and (GridTabela.Selected >= 0));
 end;
 
 procedure TFrmMain.btnSalvarComoClick(Sender: TObject);

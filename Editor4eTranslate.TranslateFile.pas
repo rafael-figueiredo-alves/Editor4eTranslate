@@ -12,11 +12,15 @@ type
  iTranslateFile = interface
    ['{4124437A-77C1-4947-BF3E-8207C3D6458E}']
    Function NewFile(const DefaultLanguage: string): iTranslateFile;
+   Function OpenFile(const FileFullPath: string) : iTranslateFile;
+   Function SaveFile : iTranslateFile;
+   Function SaveAsFile : iTranslateFile;
    Function AddLanguage(const NewLanguage: string): boolean;
    Function AddScreen(const NewScreen: string): boolean;
    function AddItemOrSubitemToScreen(const Name: string): boolean;
    function RemoveScreenItemOrSubitem: boolean;
    function AddNewStringKey(const key: string): boolean;
+   function RemoveStringKey: boolean;
    function isModified: boolean;
    Function GetJson: string;
  end;
@@ -30,6 +34,7 @@ type
      JsonFile   : TJSONObject;
      Screens    : TList<string>;
      Modified   : Boolean;
+     FilePath   : string;
      procedure ChangeSelectedItem(sender: TObject);
      procedure AddLanguageColumn(const Language: string);
      procedure AddObjectToJson(const Key: string; path: string = '');
@@ -41,11 +46,15 @@ type
      function FindGridRow(const key: string): integer;
    public
      Function NewFile(const DefaultLanguage: string): iTranslateFile;
+     Function OpenFile(const FileFullPath: string) : iTranslateFile;
+     Function SaveFile : iTranslateFile;
+     Function SaveAsFile : iTranslateFile;
      Function AddLanguage(const NewLanguage: string): boolean;
      Function AddScreen(const NewScreen: string): boolean;
      function AddItemOrSubitemToScreen(const Name: string): boolean;
      function RemoveScreenItemOrSubitem: boolean;
      function AddNewStringKey(const key: string): boolean;
+     function RemoveStringKey: boolean;
      function isModified: boolean;
      Function GetJson: string;
      Constructor Create(const TreeView: TTreeView; Grid: TStringGrid);
@@ -60,7 +69,8 @@ uses
   Editor4eTranslate.JsonObjectHelper,
   Editor4eTranslate.Shared,
   FMX.Dialogs,
-  System.Classes;
+  System.Classes,
+  Editor4eTranslate.StringGridHelper;
 
 { TTranslateFile }
 
@@ -184,7 +194,6 @@ var
   Column: TStringColumn;
 begin
   Screens   := TList<string>.create;
-  JsonFile  := TJSONObject.Create;
   FileTree  := TreeView;
   FileTree.OnChange := ChangeSelectedItem;
   FileGrid  := Grid;
@@ -196,6 +205,8 @@ begin
   Column.Width := 400;
   Column.ReadOnly := true;
   Column.CanFocus := false;
+
+  FilePath := string.Empty;
 end;
 
 destructor TTranslateFile.Destroy;
@@ -275,9 +286,21 @@ end;
 
 function TTranslateFile.NewFile(const DefaultLanguage: string): iTranslateFile;
 begin
+  JsonFile  := TJSONObject.Create;
   FileName := 'SemTitulo.json';
   AddLanguage(DefaultLanguage);
   Modified := true;
+  Result := self;
+end;
+
+function TTranslateFile.OpenFile(const FileFullPath: string): iTranslateFile;
+begin
+  FileName := ExtractFileName(FileFullPath);
+  JsonFile := GetJSONObjectFromFile(FileFullPath);
+  FilePath := FileFullPath;
+  Modified := false;
+
+  //Criar método para montar estrutura do arquivo na tela, alimentando FileTree e FileGrid
   Result := self;
 end;
 
@@ -332,15 +355,50 @@ begin
 
      for Language in Languages do
       begin
-        path := Language + '.' + NodePath;
+        if(NodePath.Contains('.'))then
+         path := Language + '.' + NodePath
+        else
+         path := Language;
         path.Replace('.' + KeyToRemove, '');
         path := path.Trim;
-        JsonFile.Key(path).RemovePair(KeyToRemove);
-        FileTree.RemoveObject(FileTree.Selected);
+        JsonFile.Key(path).RemovePair(KeyToRemove).Free;
+        FileTree.Selected.Free;
       end;
    finally
      FreeAndNil(Languages)
    end;
+end;
+
+function TTranslateFile.RemoveStringKey: boolean;
+var
+  Languages   : TList<string>;
+  Language    : string;
+  KeyToRemove : string;
+  path        : string;
+begin
+   try
+     Languages := GetLanguages(JsonFile);
+     KeyToRemove := FileGrid.Cells[0, FileGrid.Selected];
+
+     for Language in Languages do
+      begin
+        path := Language + '.' + NodePath;
+        JsonFile.Key(path).RemovePair(KeyToRemove).Free;
+      end;
+     FileGrid.DeleteSelectedRow;
+   finally
+     FreeAndNil(Languages)
+   end;
+end;
+
+function TTranslateFile.SaveAsFile: iTranslateFile;
+begin
+
+end;
+
+function TTranslateFile.SaveFile: iTranslateFile;
+begin
+
 end;
 
 end.

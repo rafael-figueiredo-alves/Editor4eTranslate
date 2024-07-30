@@ -67,11 +67,11 @@ var
  Content : string;
 begin
   Content := GetStringContentFromFile(FilePath);
-  {$IFDEF FPC}
-    Result := GetJSONData(Content) As TJSONObject;
-  {$ELSE}
+  try
     Result := TJSONObject.ParseJSONValue(TEncoding.UTF8.GetBytes(Content), 0) As TJSONObject;
-  {$ENDIF}
+  finally
+
+  end;
 end;
 
 procedure ClearJSONStrings(JSONObj: TJSONObject);
