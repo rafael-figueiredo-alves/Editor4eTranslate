@@ -5,7 +5,7 @@ interface
 uses System.JSON,
      System.Generics.Collections,
      FMX.TreeView,
-     FMX.Grid;
+     FMX.Grid, FMX.Dialogs;
 
 type
 
@@ -22,13 +22,16 @@ type
    function AddNewStringKey(const key: string): boolean;
    function RemoveStringKey: boolean;
    function isModified: boolean;
+   function isAlreadySavedAs: boolean;
    Function GetJson: string;
+   Function NomeDoArquivo: string;
  end;
 
  TTranslateFile = class(TInterfacedObject, iTranslateFile)
    private
      FileTree   : TTreeView;
      FileGrid   : TStringGrid;
+     SaveDlg    : TSaveDialog;
      FileName   : string;
      NodePath   : string;
      JsonFile   : TJSONObject;
@@ -44,6 +47,9 @@ type
      procedure ReadGridContent;
      function FindGridColumn(const Header: string): integer;
      function FindGridRow(const key: string): integer;
+     procedure ProcessJSONObject(const TreeViewItem: TTreeViewItem;JSONObj: TJSONObject;TreeView: TTreeView = nil);
+     procedure MountGridColumns;
+     procedure SaveJson;
    public
      Function NewFile(const DefaultLanguage: string): iTranslateFile;
      Function OpenFile(const FileFullPath: string) : iTranslateFile;
@@ -56,11 +62,17 @@ type
      function AddNewStringKey(const key: string): boolean;
      function RemoveStringKey: boolean;
      function isModified: boolean;
+     function isAlreadySavedAs: boolean;
+     Function NomeDoArquivo: string;
      Function GetJson: string;
-     Constructor Create(const TreeView: TTreeView; Grid: TStringGrid);
+     Constructor Create(const TreeView: TTreeView; Grid: TStringGrid;dlgSave: TSaveDialog);
      Destructor Destroy; override;
-     class function New(const TreeView: TTreeView; Grid: TStringGrid): iTranslateFile;
+     class function New(const TreeView: TTreeView; Grid: TStringGrid;dlgSave: TSaveDialog): iTranslateFile;
  end;
+
+const
+   Filters = 'Arquivo de tradução eTranslate|*.json|Arquivo de tradução eTranslate 2|*.eTranslate';
+   DefaultExt = '*.json';
 
 implementation
 
@@ -68,7 +80,6 @@ uses
   System.SysUtils,
   Editor4eTranslate.JsonObjectHelper,
   Editor4eTranslate.Shared,
-  FMX.Dialogs,
   System.Classes,
   Editor4eTranslate.StringGridHelper;
 
@@ -189,7 +200,7 @@ begin
   FileGrid.RowCount := 0;
 end;
 
-constructor TTranslateFile.Create(const TreeView: TTreeView; Grid: TStringGrid);
+constructor TTranslateFile.Create(const TreeView: TTreeView; Grid: TStringGrid;dlgSave: TSaveDialog);
 var
   Column: TStringColumn;
 begin
@@ -198,6 +209,9 @@ begin
   FileTree.OnChange := ChangeSelectedItem;
   FileGrid  := Grid;
   FileGrid.OnEditingDone := GridEditDone;
+  SaveDlg := dlgSave;
+  SaveDlg.Filter     := Filters;
+  SaveDlg.DefaultExt := DefaultExt;
 
   Column := TStringColumn.Create(FileGrid);
   Column.Header := 'Chave/Key';
@@ -216,6 +230,7 @@ begin
   FileGrid.ClearColumns;
   FileTree := nil;
   FileGrid := nil;
+  SaveDlg  := nil;
   FreeAndNil(Screens);
   FreeAndNil(JsonFile);
   inherited;
@@ -274,14 +289,36 @@ begin
   JsonFile.Key(Language + '.' + NodePath).AddKeyString(key, Value);
 end;
 
+function TTranslateFile.isAlreadySavedAs: boolean;
+begin
+  Result := (FilePath <> EmptyStr);
+end;
+
 function TTranslateFile.isModified: boolean;
 begin
   Result := Modified;
 end;
 
-class function TTranslateFile.New(const TreeView: TTreeView; Grid: TStringGrid): iTranslateFile;
+procedure TTranslateFile.MountGridColumns;
+var
+  Languages : TList<string>;
+  Language  : string;
 begin
-  Result := TTranslateFile.Create(TreeView, Grid);
+   try
+     Languages := GetLanguages(JsonFile);
+
+     for Language in Languages do
+      begin
+        AddLanguageColumn(Language);
+      end;
+   finally
+     FreeAndNil(Languages)
+   end;
+end;
+
+class function TTranslateFile.New(const TreeView: TTreeView; Grid: TStringGrid;dlgSave: TSaveDialog): iTranslateFile;
+begin
+  Result := TTranslateFile.Create(TreeView, Grid, dlgSave);
 end;
 
 function TTranslateFile.NewFile(const DefaultLanguage: string): iTranslateFile;
@@ -293,6 +330,11 @@ begin
   Result := self;
 end;
 
+function TTranslateFile.NomeDoArquivo: string;
+begin
+  Result := FileName;
+end;
+
 function TTranslateFile.OpenFile(const FileFullPath: string): iTranslateFile;
 begin
   FileName := ExtractFileName(FileFullPath);
@@ -300,8 +342,33 @@ begin
   FilePath := FileFullPath;
   Modified := false;
 
+  ProcessJSONObject(nil, TJSONObject(JsonFile.Pairs[0].JsonValue), FileTree);
+  MountGridColumns;
+
   //Criar método para montar estrutura do arquivo na tela, alimentando FileTree e FileGrid
   Result := self;
+end;
+
+procedure TTranslateFile.ProcessJSONObject(const TreeViewItem: TTreeViewItem;
+                                                 JSONObj: TJSONObject;
+                                                 TreeView: TTreeView);
+var
+  index   : Integer;
+  subitem : TTreeViewItem;
+begin
+  for index := 0 to JSONObj.Count - 1 do
+   begin
+     if JSONObj.Pairs[index].JsonValue is TJSONObject then
+      begin
+        subitem      := TTreeViewItem.Create(nil);
+        subitem.Text := JSONObj.Pairs[index].JsonString.ToString().Trim(['"']);
+        if not Assigned(TreeViewItem) then
+         subitem.Parent := TreeView
+        else
+         subitem.Parent := TreeViewItem;
+        ProcessJSONObject(subitem, TJSONObject(JSONObj.Pairs[index].JsonValue));
+      end;
+   end;
 end;
 
 procedure TTranslateFile.ReadGridContent;
@@ -398,6 +465,29 @@ end;
 
 function TTranslateFile.SaveFile: iTranslateFile;
 begin
+
+  if(isModified)then
+   begin
+     if(not isAlreadySavedAs)then
+      SaveAsFile
+     else
+      SaveJson;
+   end;
+
+  Result := self;
+end;
+
+procedure TTranslateFile.SaveJson;
+var
+  Content : TStrings;
+begin
+  Content := TStringList.Create;
+  try
+    Content.Text := JsonFile.Format();
+    Content.SaveToFile(FilePath, TEncoding.UTF8);
+  finally
+    FreeAndNil(Content);
+  end;
 
 end;
 

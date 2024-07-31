@@ -1052,6 +1052,7 @@ object FrmMain: TFrmMain
           Size.Width = 60.000000000000000000
           Size.Height = 60.000000000000000000
           Size.PlatformDefault = False
+          OnClick = btnSalvarClick
         end
         object btnSalvarComo: TSpeedButton
           Align = Left

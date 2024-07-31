@@ -1,0 +1,46 @@
+﻿{
+    "en-US": {
+        "Main": {
+            "Btn1": "{0} from {1}",
+            "Btn2": {
+                "Text": "Hello, World"
+            },
+            "Teste": {
+                "Valor1": "1",
+                "Valor2": "2",
+                "Valor3": "3",
+                "Valor4": "4",
+                "Teste": {
+                    "Valor1": "a",
+                    "Valor2": "b",
+                    "Valor3": "c",
+                    "Valor4": "d"
+                }
+            },
+            "Teste": {
+            }
+        }
+    },
+    "pt-BR": {
+        "Main": {
+            "Btn1": "{0} de {1}",
+            "Btn2": {
+                "Text": "Olá, Mundo"
+            },
+            "Teste": {
+                "Valor1": "5",
+                "Valor2": "6",
+                "Valor3": "7",
+                "Valor4": "8",
+                "Teste": {
+                    "Valor1": "e",
+                    "Valor2": "f",
+                    "Valor3": "g",
+                    "Valor4": "h"
+                }
+            },
+            "Teste": {
+            }
+        }
+    }
+}

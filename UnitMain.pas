@@ -74,6 +74,7 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure btnDeleteNoClick(Sender: TObject);
     procedure btnDeleteValueClick(Sender: TObject);
+    procedure btnSalvarClick(Sender: TObject);
   private
     { Private declarations }
     TranslateFile : iTranslateFile;
@@ -82,6 +83,7 @@ type
     procedure ObterInfoSobreApp;
     procedure SetVisibleComponents(const value: boolean);
     procedure SetFrmMainCaption(const FileName: string = '');
+    function IniciaTranslateFile: iTranslateFile;
   public
     { Public declarations }
   end;
@@ -102,7 +104,7 @@ procedure TFrmMain.CriarArquivo;
 begin
   SetFrmMainCaption('Sem título');
   SetVisibleComponents(true);
-  TranslateFile := TTranslateFile.New(tvEstrutura, GridTabela).NewFile('pt-BR');
+  TranslateFile := IniciaTranslateFile.NewFile('pt-BR');
   ShowMessage(TranslateFile.GetJson);
 end;
 
@@ -143,13 +145,19 @@ end;
 
 procedure TFrmMain.btnAbrirClick(Sender: TObject);
 begin
+  dlgAbrir.Filter     := Filters;
+  dlgAbrir.DefaultExt := DefaultExt;
+
+  if(Assigned(TranslateFile))then
+   FecharArquivo;
+
   if dlgAbrir.Execute then
    begin
      if dlgAbrir.FileName <> EmptyStr then
       begin
         SetFrmMainCaption(ExtractFileName(dlgAbrir.FileName));
         SetVisibleComponents(true);
-        TranslateFile := TTranslateFile.New(tvEstrutura, GridTabela).OpenFile(dlgAbrir.FileName);
+        TranslateFile := IniciaTranslateFile.OpenFile(dlgAbrir.FileName);
       end;
    end;
 end;
@@ -215,6 +223,11 @@ begin
   SetVisibleComponents(false);
 end;
 
+function TFrmMain.IniciaTranslateFile: iTranslateFile;
+begin
+  Result := TTranslateFile.New(tvEstrutura, GridTabela, dlgSalvar);
+end;
+
 procedure TFrmMain.TimerVisibilidadeGridTreeViewTimer(Sender: TObject);
 begin
   if(tvEstrutura.Selected <> nil)then
@@ -233,6 +246,11 @@ begin
    end;
 
    btnDeleteValue.Enabled := ((GridTabela.RowCount > 0) and (GridTabela.Selected >= 0));
+end;
+
+procedure TFrmMain.btnSalvarClick(Sender: TObject);
+begin
+  TranslateFile.SaveFile;
 end;
 
 procedure TFrmMain.btnSalvarComoClick(Sender: TObject);
