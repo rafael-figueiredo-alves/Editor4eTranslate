@@ -10,7 +10,8 @@ uses
   Editor4eTranslate.TranslateFile in 'Editor4eTranslate.TranslateFile.pas',
   Editor4eTranslate.JsonObjectHelper in 'Editor4eTranslate.JsonObjectHelper.pas',
   Editor4eTranslate.Shared in 'Editor4eTranslate.Shared.pas',
-  Editor4eTranslate.StringGridHelper in 'Editor4eTranslate.StringGridHelper.pas';
+  Editor4eTranslate.StringGridHelper in 'Editor4eTranslate.StringGridHelper.pas',
+  Editor4eTranslate.InsertNode in 'Editor4eTranslate.InsertNode.pas' {frmInsertNode};
 
 {$R *.res}
 
@@ -19,5 +20,6 @@ begin
   ReportMemoryLeaksOnShutdown := true;
   Application.Initialize;
   Application.CreateForm(TFrmMain, FrmMain);
+  Application.CreateForm(TfrmInsertNode, frmInsertNode);
   Application.Run;
 end.

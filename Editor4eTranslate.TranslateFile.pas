@@ -131,11 +131,26 @@ begin
 end;
 
 function TTranslateFile.AddNewStringKey(const key: string): boolean;
+var
+ Language : string;
+ value    : string;
+ indexCol : integer;
 begin
   if(FindGridRow(key) = -1)then
    begin
     FileGrid.RowCount := FileGrid.RowCount + 1;
     FileGrid.Cells[0, FileGrid.RowCount-1] := key;
+
+    for indexCol := 1 to FileGrid.ColumnCount - 1 do
+     begin
+       Language := FileGrid.Columns[indexCol].Header;
+       Value    := FileGrid.Cells[indexCol, FileGrid.RowCount-1];
+
+       JsonFile.Key(Language + '.' + NodePath).AddKeyString(key, value);
+     end;
+
+    Modified := true;
+
     Result := True;
    end
   else
@@ -273,7 +288,7 @@ end;
 
 function TTranslateFile.GetJson: string;
 begin
-  Result := JsonFile.ToString();
+  Result := JsonFile.Format();
 end;
 
 procedure TTranslateFile.GridEditDone(Sender: TObject; const ACol,ARow: Integer);
@@ -430,6 +445,7 @@ begin
         path := path.Trim;
         JsonFile.Key(path).RemovePair(KeyToRemove).Free;
         FileTree.Selected.Free;
+        Modified := True;
       end;
    finally
      FreeAndNil(Languages)
@@ -453,6 +469,8 @@ begin
         JsonFile.Key(path).RemovePair(KeyToRemove).Free;
       end;
      FileGrid.DeleteSelectedRow;
+
+     Modified := true;
    finally
      FreeAndNil(Languages)
    end;
@@ -460,12 +478,19 @@ end;
 
 function TTranslateFile.SaveAsFile: iTranslateFile;
 begin
+  if(FilePath <> EmptyStr)then
+   SaveDlg.FileName := FilePath;
 
+   if(SaveDlg.Execute)then
+    begin
+      FilePath := SaveDlg.FileName;
+      FileName := ExtractFileName(FilePath);
+      SaveJson;
+    end;
 end;
 
 function TTranslateFile.SaveFile: iTranslateFile;
 begin
-
   if(isModified)then
    begin
      if(not isAlreadySavedAs)then
@@ -483,8 +508,9 @@ var
 begin
   Content := TStringList.Create;
   try
-    Content.Text := JsonFile.Format();
+    Content.Text := GetJson;
     Content.SaveToFile(FilePath, TEncoding.UTF8);
+    Modified := False;
   finally
     FreeAndNil(Content);
   end;

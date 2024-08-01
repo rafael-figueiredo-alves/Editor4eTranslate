@@ -206,6 +206,10 @@
         <DCCReference Include="Editor4eTranslate.JsonObjectHelper.pas"/>
         <DCCReference Include="Editor4eTranslate.Shared.pas"/>
         <DCCReference Include="Editor4eTranslate.StringGridHelper.pas"/>
+        <DCCReference Include="Editor4eTranslate.InsertNode.pas">
+            <Form>frmInsertNode</Form>
+            <FormType>fmx</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

@@ -84,6 +84,8 @@ type
     procedure SetVisibleComponents(const value: boolean);
     procedure SetFrmMainCaption(const FileName: string = '');
     function IniciaTranslateFile: iTranslateFile;
+    procedure MsgErro(const Msg: string);
+    function OpenInsertNode(const Caption, text: string; out Valor: string): boolean;
   public
     { Public declarations }
   end;
@@ -95,7 +97,9 @@ implementation
 
 uses
   UnitAbout,
-  Editor4etranslate.Consts;
+  Editor4etranslate.Consts,
+  Editor4eTranslate.InsertNode,
+  FMX.DialogService;
 
 {$R *.fmx}
 
@@ -122,6 +126,27 @@ begin
     FrmSobre.ShowModal;
   finally
     FreeAndNil(FrmSobre);
+  end;
+end;
+
+function TFrmMain.OpenInsertNode(const Caption, text: string;out Valor: string): boolean;
+begin
+  Result := False;
+  frmInsertNode := tfrmInsertNode.Create(nil);
+  try
+    frmInsertNode.Caption              := Caption;
+    frmInsertNode.LblMensagemInfo.Text := text;
+
+    if(frmInsertNode.ShowModal = mrOk)then
+     begin
+       if(frmInsertNode.eValor.Text <> EmptyStr)then
+        begin
+         Valor := frmInsertNode.eValor.Text;
+         Result := true;
+        end;
+     end;
+  finally
+    FreeAndNil(frmInsertNode);
   end;
 end;
 
@@ -163,22 +188,42 @@ begin
 end;
 
 procedure TFrmMain.btnAddFormClick(Sender: TObject);
+var
+  ScreenName : string;
 begin
-  if not TranslateFile.AddScreen('Teste') then
-   ShowMessage('Não é possível adicionar 2 ou mais telas com o mesmo nome.');
+  if(OpenInsertNode('Adicionar Nova Tela',
+                    'Informe um nome único para a tela no seu sistema a receber um grupo de valores de tradução. Não use ponto final nem caracteres especiais com exceção do hífen(-) e underscore(_).',
+                    ScreenName))then
+   begin
+    if not TranslateFile.AddScreen(ScreenName) then
+     MsgErro('Não é possível adicionar 2 ou mais telas com o mesmo nome.');
+   end;
 end;
 
 procedure TFrmMain.btnAddNoClick(Sender: TObject);
+var
+  ItemName : string;
 begin
-  TranslateFile.AddItemOrSubitemToScreen('Teste');
+  if(OpenInsertNode('Adicionar Novo grupo de controles',
+                    'Informe um nome único para o grupo de controles da tela no seu sistema a receber um grupo de valores de tradução. Não use ponto final nem caracteres especiais com exceção do hífen(-) e underscore(_).',
+                    ItemName))then
+   begin
+    if not TranslateFile.AddItemOrSubitemToScreen(ItemName) then
+     MsgErro('Não é possível adicionar 2 ou mais grupos de controles a uma mesma tela com o mesmo nome.');
+   end;
 end;
 
 procedure TFrmMain.btnAddValueClick(Sender: TObject);
+var
+  ItemName : string;
 begin
-  TranslateFile.AddNewStringKey('Valor1');
-  TranslateFile.AddNewStringKey('Valor2');
-  TranslateFile.AddNewStringKey('Valor3');
-  TranslateFile.AddNewStringKey('Valor4');
+  if(OpenInsertNode('Adicionar Nova chave de valores',
+                    'Informe um nome único para a chave de valores no seu sistema a receber os valores de tradução. Não use ponto final nem caracteres especiais com exceção do hífen(-) e underscore(_).',
+                    ItemName))then
+   begin
+    if not TranslateFile.AddNewStringKey(ItemName) then
+     MsgErro('Não é possível adicionar 2 ou mais chaves de valores com o mesmo nome dentro de um mesmo grupo ou janela.');
+   end;
 end;
 
 procedure TFrmMain.btnDeleteNoClick(Sender: TObject);
@@ -228,6 +273,19 @@ begin
   Result := TTranslateFile.New(tvEstrutura, GridTabela, dlgSalvar);
 end;
 
+procedure TFrmMain.MsgErro(const Msg: string);
+begin
+  TDialogService.PreferredMode := TDialogService.TPreferredMode.Platform;
+  TDialogService.MessageDialog(Msg, TMsgDlgType.mtError,
+    [TMsgDlgBtn.mbOK], TMsgDlgBtn.mbOK, 0,
+    procedure(const AResult: TModalResult)
+    begin
+        case AResult of
+          mrOk: exit;
+        end;
+    end);
+end;
+
 procedure TFrmMain.TimerVisibilidadeGridTreeViewTimer(Sender: TObject);
 begin
   if(tvEstrutura.Selected <> nil)then
@@ -246,6 +304,15 @@ begin
    end;
 
    btnDeleteValue.Enabled := ((GridTabela.RowCount > 0) and (GridTabela.Selected >= 0));
+
+   if(TranslateFile <> nil)then
+    begin
+      btnSalvar.Enabled := TranslateFile.isModified;
+    end
+   else
+    begin
+      btnSalvar.Enabled := false;
+    end;
 end;
 
 procedure TFrmMain.btnSalvarClick(Sender: TObject);
@@ -255,7 +322,7 @@ end;
 
 procedure TFrmMain.btnSalvarComoClick(Sender: TObject);
 begin
-  dlgSalvar.Execute;
+  TranslateFile.SaveAsFile;
 end;
 
 procedure TFrmMain.btnSobreClick(Sender: TObject);

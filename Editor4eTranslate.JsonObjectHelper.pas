@@ -5,11 +5,7 @@ interface
 uses
   SysUtils,
   Classes,
-  {$IFDEF FPC}
-    fpjson;
-  {$ELSE}
-    System.JSON;
-  {$ENDIF}
+  System.JSON;
 
 type
 
@@ -84,11 +80,7 @@ end;
 
 function tJSONObjectHelper.Value(Key: string): string;
 begin
-  {$ifdef fpc}
-    Result := RemoveQuotes(GetPath(Key).AsString);
-  {$else}
     Result := RemoveQuotes(GetValue(Key).ToString);
-  {$endif}
 end;
 
 end.
