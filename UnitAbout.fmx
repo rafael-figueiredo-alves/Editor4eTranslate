@@ -1317,8 +1317,13 @@ object FrmSobre: TFrmSobre
       Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
       DataDetectorTypes = []
       Lines.Strings = (
-        'Vers'#227'o 1.0.0'
-        '=> Primeiro release')
+        'Vers'#227'o 1.0.0 - 01/08/2024'
+        '=> Primeiro release.'
+        '=> Cria'#231#227'o de Arquivos para uso do eTranslate.'
+        
+          '=> Adi'#231#227'o de N'#243's para representar janelas e agrupamentos de cont' +
+          'roles.'
+        '=> F'#225'cil exclus'#227'o de valores.')
       ReadOnly = True
       StyledSettings = [Style, FontColor]
       TextSettings.Font.Family = 'Arial'

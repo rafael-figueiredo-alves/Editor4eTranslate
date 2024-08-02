@@ -77,7 +77,6 @@ end;
 procedure ClearJSONStrings(JSONObj: TJSONObject);
 var
   i: Integer;
-  subitem: TTreeViewItem;
 begin
   for i := 0 to JSONObj.Count - 1 do
   begin
@@ -105,7 +104,6 @@ end;
 
 function VerificarItemTreeView(Const TreeView: TTreeView; const Texto: string): boolean;
 var
-  Nodo: TTreeViewItem;
   item: integer;
 begin
   Result := false;
@@ -121,7 +119,6 @@ end;
 
 function VerificarItemTreeViewItem(Const TreeViewItem: TTreeViewItem; const Texto: string): boolean;
 var
-  Nodo: TTreeViewItem;
   item: integer;
 begin
   Result := false;

@@ -4,7 +4,7 @@
         <ProjectVersion>19.5</ProjectVersion>
         <FrameworkType>FMX</FrameworkType>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Debug</Config>
+        <Config Condition="'$(Config)'==''">Release</Config>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <TargetedPlatforms>32787</TargetedPlatforms>
         <AppType>Application</AppType>
@@ -138,11 +138,12 @@
         <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
         <BT_BuildType>Debug</BT_BuildType>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
-        <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
-        <VerInfo_Locale>1033</VerInfo_Locale>
+        <VerInfo_Keys>CompanyName=Rafael de Figueiredo Alves;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=;Dedicatória=&quot;Eu, Rafael de Figueiredo Alves, dedico este projeto, assim como todo o meu trabalho, aos grandes amores e razões da minha vida: Minha esposa Jailza e meus filhos Rafaela e Davi. Eu os amo muito e são eles minha fonte de inspiração e motivação.&quot;</VerInfo_Keys>
+        <VerInfo_Locale>1046</VerInfo_Locale>
         <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
         <UWP_DelphiLogo44>$(BDS)\bin\Artwork\Windows\UWP\delphi_UwpDefault_44.png</UWP_DelphiLogo44>
         <UWP_DelphiLogo150>$(BDS)\bin\Artwork\Windows\UWP\delphi_UwpDefault_150.png</UWP_DelphiLogo150>
+        <AppDPIAwarenessMode>none</AppDPIAwarenessMode>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win64)'!=''">
         <DCC_UsePackage>soapserver;IndySystem;vclwinx;fmx;Skia.Package.VCL;vclie;DbxCommonDriver;bindengine;vcldb;IndyIPCommon;VCLRESTComponents;FireDACCommonODBC;FireDACCommonDriver;appanalytics;IndyProtocols;vclx;Skia.Package.RTL;IndyIPClient;dbxcds;vcledge;vclFireDAC;bindcompvclwinx;bindcomp;FmxTeeUI;FireDACCommon;IndyCore;RESTBackendComponents;bindcompfmx;bindcompdbx;inetdb;rtl;FireDACMySQLDriver;FireDACSqliteDriver;DbxClientDriver;FireDACADSDriver;Tee;RESTComponents;DBXSqliteDriver;vcl;vclactnband;TeeUI;IndyIPServer;fmxFireDAC;dbexpress;dsnapxml;dsnapcon;soapmidas;adortl;DBXMySQLDriver;VclSmp;inet;vclimg;vcltouch;FireDACPgDriver;FireDAC;fmxase;inetdbxpress;xmlrtl;tethering;dbrtl;bindcompvcl;dsnap;fmxdae;TeeDB;Skia.Package.FMX;CloudService;FireDACMSAccDriver;CustomIPTransport;fmxobj;bindcompvclsmp;FMXTee;soaprtl;vcldsnap;DBXInterBaseDriver;FireDACIBDriver;$(DCC_UsePackage)</DCC_UsePackage>
@@ -185,6 +186,10 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
         <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <VerInfo_Locale>1046</VerInfo_Locale>
+        <VerInfo_Keys>CompanyName=Rafael de Figueiredo Alves;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.rafaelalves.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=;Dedicatória=&quot;Eu, Rafael de Figueiredo Alves, dedico este projeto, assim como todo o meu trabalho, aos grandes amores e razões da minha vida: Minha esposa Jailza e meus filhos Rafaela e Davi. Eu os amo muito e são eles minha fonte de inspiração e motivação.&quot;</VerInfo_Keys>
+        <Icon_MainIcon>Editor4eTranslate_Icon1.ico</Icon_MainIcon>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win64)'!=''">
         <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>

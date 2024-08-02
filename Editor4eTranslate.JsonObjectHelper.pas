@@ -22,7 +22,8 @@ type
 implementation
 
 Uses
-  Editor4eTranslate.Shared;
+  Editor4eTranslate.Shared,
+  System.Generics.Collections;
 
 { tJSONObject }
 
@@ -37,20 +38,22 @@ var
 begin
   JsonPair := Pair(key);
   if(JsonPair <> nil)then
-    JsonPair.JsonValue := TJSONString.Create(value)
+   begin
+    JsonPair.JsonValue := TJSONString.Create(value);
+    Result := Self;
+   end
   else
     Result := AddPair(key, TJSONString.Create(value));
 end;
 
 function TJSONObjectHelper.CopyStructureTo(const Key: string): TJSONObject;
-var
-  Structure: TJSONObject;
 begin
    if Pairs[0].JsonString.ToString <> Key then
     begin
       self.Pair(key).JsonValue := (Pairs[0].JsonValue AS TJSONObject).Clone AS TJSONObject;
       ClearJSONStrings(self.Key(key));
     end;
+   Result := Self;
 end;
 
 function tJSONObjectHelper.Key(Value: string): TJSONObject;

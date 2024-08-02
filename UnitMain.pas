@@ -84,7 +84,9 @@ type
     procedure SetVisibleComponents(const value: boolean);
     procedure SetFrmMainCaption(const FileName: string = '');
     function IniciaTranslateFile: iTranslateFile;
+    function FormatarLanguageUsandoStandard(const Language: string): string;
     procedure MsgErro(const Msg: string);
+    function MsgConfirma(const Msg: string): boolean;
     function OpenInsertNode(const Caption, text: string; out Valor: string): boolean;
   public
     { Public declarations }
@@ -106,10 +108,9 @@ uses
 {$REGION 'Métodos Privados'}
 procedure TFrmMain.CriarArquivo;
 begin
-  SetFrmMainCaption('Sem título');
   SetVisibleComponents(true);
   TranslateFile := IniciaTranslateFile.NewFile('pt-BR');
-  ShowMessage(TranslateFile.GetJson);
+  SetFrmMainCaption(TranslateFile.NomeDoArquivo);
 end;
 
 procedure TFrmMain.FecharArquivo;
@@ -165,6 +166,36 @@ begin
   btnSalvarComo.Enabled := value;
   btnFechar.Enabled     := value;
   btnIdioma.Enabled     := value;
+end;
+
+procedure TFrmMain.MsgErro(const Msg: string);
+begin
+  TDialogService.PreferredMode := TDialogService.TPreferredMode.Platform;
+  TDialogService.MessageDialog(Msg, TMsgDlgType.mtError,
+    [TMsgDlgBtn.mbOK], TMsgDlgBtn.mbOK, 0,
+    procedure(const AResult: TModalResult)
+    begin
+        case AResult of
+          mrOk: exit;
+        end;
+    end);
+end;
+
+function TFrmMain.MsgConfirma(const Msg: string): boolean;
+var
+  Retorno : Boolean;
+begin
+  TDialogService.PreferredMode := TDialogService.TPreferredMode.Platform;
+  TDialogService.MessageDialog(Msg, TMsgDlgType.mtConfirmation,
+    [TMsgDlgBtn.mbYes,TMsgDlgBtn.mbNo], TMsgDlgBtn.mbYes, 0,
+    procedure(const AResult: TModalResult)
+    begin
+        case AResult of
+          mrYes: Retorno := true;
+          mrNo:  Retorno := False;
+        end;
+    end);
+  Result := Retorno;
 end;
 {$ENDREGION}
 
@@ -228,12 +259,14 @@ end;
 
 procedure TFrmMain.btnDeleteNoClick(Sender: TObject);
 begin
-  TranslateFile.RemoveScreenItemOrSubitem;
+  if(MsgConfirma('Você está prestes a apagar a chave de valores "' + tvEstrutura.Selected.Text + '". Tem certeza que deseja apagá-la?'))then
+   TranslateFile.RemoveScreenItemOrSubitem;
 end;
 
 procedure TFrmMain.btnDeleteValueClick(Sender: TObject);
 begin
-  TranslateFile.RemoveStringKey;
+  if(MsgConfirma('Você está prestes a apagar a chave de valores "' + GridTabela.Cells[0, GridTabela.Selected] + '". Tem certeza que deseja apagá-la?'))then
+    TranslateFile.RemoveStringKey;
 end;
 
 procedure TFrmMain.btnFecharClick(Sender: TObject);
@@ -243,17 +276,34 @@ end;
 
 procedure TFrmMain.btnIdiomaClick(Sender: TObject);
 var
-  Idioma: TStringColumn;
+  Language : string;
 begin
-  if( not TranslateFile.AddLanguage('en-US'))then
-   ShowMessage('Não é possível adicionar idioma pois ele já existe no arquivo.');
-
-  ShowMessage(TranslateFile.GetJson);
+  if(OpenInsertNode('Adicionar Novo Idioma',
+                    'Informe um novo Idioma para adicionar suporte ao seu sistema. Não use ponto final nem caracteres especiais com exceção do hífen(-) e underscore(_). Utilize o padrão, como, por exemplo, "pt-BR" ou "en-US".',
+                    Language))then
+   begin
+    Language := FormatarLanguageUsandoStandard(Language);
+    if not TranslateFile.AddLanguage(Language) then
+     MsgErro('Não é possível adicionar 2 ou mais idiomas iguais. Tente um idioma diferente.');
+   end;
 end;
 
 procedure TFrmMain.btnNovoClick(Sender: TObject);
 begin
    CriarArquivo;
+end;
+
+function TFrmMain.FormatarLanguageUsandoStandard(const Language: string): string;
+var
+  Valores: TArray<string>;
+begin
+  if((Language.Length = 5) and (Language.Contains('-')))then
+   begin
+     Valores := Language.Split(['-']);
+     Result  := LowerCase(Valores[0]) + '-' + UpperCase(Valores[1]);
+   end
+  else
+   Result := Language;
 end;
 
 procedure TFrmMain.FormClose(Sender: TObject; var Action: TCloseAction);
@@ -271,19 +321,6 @@ end;
 function TFrmMain.IniciaTranslateFile: iTranslateFile;
 begin
   Result := TTranslateFile.New(tvEstrutura, GridTabela, dlgSalvar);
-end;
-
-procedure TFrmMain.MsgErro(const Msg: string);
-begin
-  TDialogService.PreferredMode := TDialogService.TPreferredMode.Platform;
-  TDialogService.MessageDialog(Msg, TMsgDlgType.mtError,
-    [TMsgDlgBtn.mbOK], TMsgDlgBtn.mbOK, 0,
-    procedure(const AResult: TModalResult)
-    begin
-        case AResult of
-          mrOk: exit;
-        end;
-    end);
 end;
 
 procedure TFrmMain.TimerVisibilidadeGridTreeViewTimer(Sender: TObject);
@@ -318,11 +355,13 @@ end;
 procedure TFrmMain.btnSalvarClick(Sender: TObject);
 begin
   TranslateFile.SaveFile;
+  SetFrmMainCaption(TranslateFile.NomeDoArquivo);
 end;
 
 procedure TFrmMain.btnSalvarComoClick(Sender: TObject);
 begin
   TranslateFile.SaveAsFile;
+  SetFrmMainCaption(TranslateFile.NomeDoArquivo);
 end;
 
 procedure TFrmMain.btnSobreClick(Sender: TObject);

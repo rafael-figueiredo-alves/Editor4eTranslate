@@ -41,12 +41,12 @@ type
      procedure ChangeSelectedItem(sender: TObject);
      procedure AddLanguageColumn(const Language: string);
      procedure AddObjectToJson(const Key: string; path: string = '');
-     procedure AddValueToJson(const key, Value, path: string);
      procedure GridEditDone(Sender: TObject; const ACol, ARow: Integer);
      procedure ClearGrid;
      procedure ReadGridContent;
      function FindGridColumn(const Header: string): integer;
      function FindGridRow(const key: string): integer;
+     function FindObjectValue(const name: string): boolean;
      procedure ProcessJSONObject(const TreeViewItem: TTreeViewItem;JSONObj: TJSONObject;TreeView: TTreeView = nil);
      procedure MountGridColumns;
      procedure SaveJson;
@@ -89,7 +89,7 @@ function TTranslateFile.AddItemOrSubitemToScreen(const Name: string): boolean;
 var
   item: TTreeViewItem;
 begin
-  if Assigned(FileTree.Selected) and not VerificarItemTreeViewItem(FileTree.Selected, Name) then
+  if Assigned(FileTree.Selected) and (not VerificarItemTreeViewItem(FileTree.Selected, Name)) and (not FindObjectValue(Name)) then
    begin
      Modified := True;
      AddObjectToJson(Name, NodePath);
@@ -194,11 +194,6 @@ begin
    end;
 end;
 
-procedure TTranslateFile.AddValueToJson(const key, Value, path: string);
-begin
-  JsonFile.Key(key).AddKeyString(key, Value);
-end;
-
 procedure TTranslateFile.ChangeSelectedItem(sender: TObject);
 begin
   if(FileTree.Selected <> nil)then begin
@@ -283,6 +278,34 @@ begin
           Exit;
         end;
      end;
+   end;
+end;
+
+function TTranslateFile.FindObjectValue(const name: string): boolean;
+var
+  Languages : TList<string>;
+  Language  : string;
+  FoundPair : TJSONPair;
+begin
+   Result := false;
+   try
+     Languages := GetLanguages(JsonFile);
+
+     for Language in Languages do
+      begin
+        if(NodePath = EmptyStr)then
+          FoundPair := JsonFile.Key(Language).Pair(Name)
+        else
+          FoundPair := JsonFile.Key(Language + '.' + NodePath).Pair(Name);
+
+        if(Assigned(FoundPair))then
+         begin
+           Result := True;
+           exit;
+         end;
+      end;
+   finally
+     FreeAndNil(Languages);
    end;
 end;
 
@@ -431,6 +454,7 @@ var
   KeyToRemove : string;
   path        : string;
 begin
+   Result := false;
    try
      Languages := GetLanguages(JsonFile);
      KeyToRemove := FileTree.Selected.Text;
@@ -445,6 +469,7 @@ begin
         path := path.Trim;
         JsonFile.Key(path).RemovePair(KeyToRemove).Free;
         FileTree.Selected.Free;
+        Result := True;
         Modified := True;
       end;
    finally
@@ -469,7 +494,7 @@ begin
         JsonFile.Key(path).RemovePair(KeyToRemove).Free;
       end;
      FileGrid.DeleteSelectedRow;
-
+     Result := True;
      Modified := true;
    finally
      FreeAndNil(Languages)

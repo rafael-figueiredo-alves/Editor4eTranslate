@@ -7,14 +7,11 @@
             },
             "Teste": {
                 "Valor1": "1",
-                "Valor2": "2",
                 "Valor3": "3",
-                "Valor4": "4",
                 "Teste": {
                     "Valor1": "a",
                     "Valor2": "b",
-                    "Valor3": "c",
-                    "Valor4": "d"
+                    "Valor3": "c"
                 }
             },
             "Teste": {
@@ -29,14 +26,11 @@
             },
             "Teste": {
                 "Valor1": "5",
-                "Valor2": "6",
                 "Valor3": "7",
-                "Valor4": "8",
                 "Teste": {
                     "Valor1": "e",
                     "Valor2": "f",
-                    "Valor3": "g",
-                    "Valor4": "h"
+                    "Valor3": "g"
                 }
             },
             "Teste": {
