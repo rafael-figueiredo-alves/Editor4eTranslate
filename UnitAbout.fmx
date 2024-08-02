@@ -1317,6 +1317,15 @@ object FrmSobre: TFrmSobre
       Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
       DataDetectorTypes = []
       Lines.Strings = (
+        'Vers'#227'o 1.1.0 - 01/08/2024'
+        
+          '=> Corrigido comportamento do bot'#227'o novo para permitir definir o' +
+          ' idioma inicial/padr'#227'o.'
+        '=> Adicionado visualizador do JSON produzido.'
+        
+          '=> Adicionado comportamento de perguntar se deseja salvar altera' +
+          #231#245'es antes de encerrar aplicativo e/ou criar novo arquivo.'
+        ''
         'Vers'#227'o 1.0.0 - 01/08/2024'
         '=> Primeiro release.'
         '=> Cria'#231#227'o de Arquivos para uso do eTranslate.'
@@ -1338,7 +1347,7 @@ object FrmSobre: TFrmSobre
       Size.Height = 228.000000000000000000
       Size.PlatformDefault = False
       TabOrder = 1
-      Viewport.Width = 384.000000000000000000
+      Viewport.Width = 368.000000000000000000
       Viewport.Height = 224.000000000000000000
     end
   end

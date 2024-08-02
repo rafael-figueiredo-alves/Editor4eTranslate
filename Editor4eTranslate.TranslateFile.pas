@@ -325,6 +325,7 @@ begin
   Value    := FileGrid.Cells[ACol, ARow];
 
   JsonFile.Key(Language + '.' + NodePath).AddKeyString(key, Value);
+  Modified := True;
 end;
 
 function TTranslateFile.isAlreadySavedAs: boolean;

@@ -60,6 +60,12 @@ type
     Rectangle1: TRectangle;
     btnIdioma: TSpeedButton;
     TimerVisibilidadeGridTreeView: TTimer;
+    Rectangle2: TRectangle;
+    btnViewJSON: TSpeedButton;
+    btnMaisAcoes: TSpeedButton;
+    PopupMenu1: TPopupMenu;
+    MenuItem1: TMenuItem;
+    MenuItem2: TMenuItem;
     procedure btnNovoClick(Sender: TObject);
     procedure btnFecharClick(Sender: TObject);
     procedure btnSobreClick(Sender: TObject);
@@ -75,6 +81,7 @@ type
     procedure btnDeleteNoClick(Sender: TObject);
     procedure btnDeleteValueClick(Sender: TObject);
     procedure btnSalvarClick(Sender: TObject);
+    procedure btnViewJSONClick(Sender: TObject);
   private
     { Private declarations }
     TranslateFile : iTranslateFile;
@@ -101,20 +108,35 @@ uses
   UnitAbout,
   Editor4etranslate.Consts,
   Editor4eTranslate.InsertNode,
-  FMX.DialogService;
+  FMX.DialogService,
+  uViewJSON;
 
 {$R *.fmx}
 
 {$REGION 'Métodos Privados'}
 procedure TFrmMain.CriarArquivo;
+var
+  Language: string;
 begin
-  SetVisibleComponents(true);
-  TranslateFile := IniciaTranslateFile.NewFile('pt-BR');
-  SetFrmMainCaption(TranslateFile.NomeDoArquivo);
+  if(Assigned(TranslateFile))then
+   FecharArquivo;
+
+  if(OpenInsertNode('Criar novo arquivo',
+                    'Informe o Idioma padrão inicial para adicionar suporte ao seu sistema. Não use ponto final nem caracteres especiais com exceção do hífen(-) e underscore(_). Utilize o padrão, como, por exemplo, "pt-BR" ou "en-US".',
+                    Language))then
+   begin
+    Language := FormatarLanguageUsandoStandard(Language);
+    SetVisibleComponents(true);
+    TranslateFile := IniciaTranslateFile.NewFile(Language);
+    SetFrmMainCaption(TranslateFile.NomeDoArquivo);
+   end;
 end;
 
 procedure TFrmMain.FecharArquivo;
 begin
+  if((TranslateFile.isModified) and (MsgConfirma('O Documento "' + TranslateFile.NomeDoArquivo + '" foi alterado, mas suas alterações não foram salvas ainda. Deseja SALVÁ-LAS?')))then
+   TranslateFile.SaveFile;
+
   SetFrmMainCaption('');
   SetVisibleComponents(false);
   TranslateFile := nil;
@@ -166,6 +188,7 @@ begin
   btnSalvarComo.Enabled := value;
   btnFechar.Enabled     := value;
   btnIdioma.Enabled     := value;
+  btnViewJSON.Enabled   := value;
 end;
 
 procedure TFrmMain.MsgErro(const Msg: string);
@@ -309,7 +332,12 @@ end;
 procedure TFrmMain.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   if(Assigned(TranslateFile))then
+   begin
+    if((TranslateFile.isModified) and (MsgConfirma('O Documento "' + TranslateFile.NomeDoArquivo + '" foi alterado, mas suas alterações não foram salvas ainda. Deseja SALVÁ-LAS?')))then
+     TranslateFile.SaveFile;
+
     TranslateFile := nil;
+   end;
   tvEstrutura.FreeOnRelease;
 end;
 
@@ -367,6 +395,11 @@ end;
 procedure TFrmMain.btnSobreClick(Sender: TObject);
 begin
   ObterInfoSobreApp;
+end;
+
+procedure TFrmMain.btnViewJSONClick(Sender: TObject);
+begin
+  ExibirJSON(TranslateFile.GetJson);
 end;
 
 end.
