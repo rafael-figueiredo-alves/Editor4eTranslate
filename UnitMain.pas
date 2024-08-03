@@ -62,10 +62,12 @@ type
     TimerVisibilidadeGridTreeView: TTimer;
     Rectangle2: TRectangle;
     btnViewJSON: TSpeedButton;
-    btnMaisAcoes: TSpeedButton;
+    btnExportScript: TSpeedButton;
     PopupMenu1: TPopupMenu;
     MenuItem1: TMenuItem;
     MenuItem2: TMenuItem;
+    btnConfiguracoes: TSpeedButton;
+    BarraDeStatus: TStatusBar;
     procedure btnNovoClick(Sender: TObject);
     procedure btnFecharClick(Sender: TObject);
     procedure btnSobreClick(Sender: TObject);
@@ -183,12 +185,13 @@ end;
 
 procedure TFrmMain.SetVisibleComponents(const value: boolean);
 begin
-  lytMain.Visible       := value;
-  btnSalvar.Enabled     := value;
-  btnSalvarComo.Enabled := value;
-  btnFechar.Enabled     := value;
-  btnIdioma.Enabled     := value;
-  btnViewJSON.Enabled   := value;
+  lytMain.Visible         := value;
+  btnSalvar.Enabled       := value;
+  btnSalvarComo.Enabled   := value;
+  btnFechar.Enabled       := value;
+  btnIdioma.Enabled       := value;
+  btnViewJSON.Enabled     := value;
+  btnExportScript.Enabled := Value;
 end;
 
 procedure TFrmMain.MsgErro(const Msg: string);
