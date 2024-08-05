@@ -1,0 +1,11 @@
+{
+	"name": "Editor for eTranslate",
+	"description": "App to make it possible to edit and create eTranslate files very easily.",
+	"version": "1.2.0",
+	"homepage": "https://github.com/rafael-figueiredo-alves/Editor4eTranslate",
+	"mainsrc": "./",
+	"projects": [],
+	"dependencies": {
+		"https://github.com/rafael-figueiredo-alves/etranslate4pascal": "^v1.0.0"
+	}
+}
