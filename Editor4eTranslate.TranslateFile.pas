@@ -81,7 +81,8 @@ uses
   Editor4eTranslate.JsonObjectHelper,
   Editor4eTranslate.Shared,
   System.Classes,
-  Editor4eTranslate.StringGridHelper;
+  Editor4eTranslate.StringGridHelper,
+  Editor4eTranslate.ConfigFile;
 
 { TTranslateFile }
 
@@ -311,7 +312,7 @@ end;
 
 function TTranslateFile.GetJson: string;
 begin
-  Result := JsonFile.Format();
+  Result := JsonFile.Format(ConfigFile.Identacao);
 end;
 
 procedure TTranslateFile.GridEditDone(Sender: TObject; const ACol,ARow: Integer);

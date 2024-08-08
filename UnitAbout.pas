@@ -38,7 +38,7 @@ const
    LabelVersao         = 1;
 begin
   lbVersao.Words.Items[LabelNomeAplicativo].Text := NomeAplicativo;
-  lbVersao.Words.Items[LabelVersao].Text         := VersaoAplicativo;
+  lbVersao.Words.Items[LabelVersao].Text         := ' versão '+ VersaoAplicativo;
 end;
 
 end.

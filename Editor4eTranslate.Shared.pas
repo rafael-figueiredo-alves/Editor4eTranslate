@@ -15,13 +15,39 @@ function GetLanguages(const JSONObj: TJSONObject): TList<string>;
 function VerificarItemTreeView(Const TreeView: TTreeView; const Texto: string): boolean;
 function VerificarItemTreeViewItem(Const TreeViewItem: TTreeViewItem; const Texto: string): boolean;
 function RemoveQuotes(const text: string) : string;
+procedure GetLanguageFileFromResources;
+function LanguageFile: string;
 
 
 implementation
 
 uses
   System.Classes,
-  System.SysUtils;
+  System.SysUtils,
+  Winapi.Windows,
+  Editor4eTranslate.Consts;
+
+function LanguageFile: string;
+begin
+  Result := ExtractFilePath(ParamStr(0)) + NomeAplicativo + sufixoArquivoTraducoes;
+end;
+
+procedure GetLanguageFileFromResources;
+var
+  RS: TResourceStream;
+  filePath: string;
+begin
+  if(not FileExists(LanguageFile))then
+   begin
+    RS := TResourceStream.Create(HInstance, ChaveResource, RT_RCDATA);
+    try
+      if(Assigned(RS))then
+       RS.SaveToFile(LanguageFile);
+    finally
+      RS.Free;
+    end;
+   end;
+end;
 
 function RemoveQuotes(const text: string) : string;
 begin

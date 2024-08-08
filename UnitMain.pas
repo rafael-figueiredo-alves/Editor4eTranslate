@@ -25,7 +25,7 @@ uses
   FMX.Grid,
   System.ImageList,
   FMX.ImgList,
-  Editor4eTranslate.TranslateFile;
+  Editor4eTranslate.TranslateFile, FMX.Effects;
 
 type
   TFrmMain = class(TForm)
@@ -108,6 +108,7 @@ implementation
 
 uses
   UnitAbout,
+  Editor4etranslate.ConfigFile,
   Editor4etranslate.Consts,
   Editor4eTranslate.InsertNode,
   FMX.DialogService,
@@ -347,6 +348,7 @@ end;
 procedure TFrmMain.FormCreate(Sender: TObject);
 begin
   SetVisibleComponents(false);
+  BarraDeStatus.Visible := ConfigFile.ShowStatusBar;
 end;
 
 function TFrmMain.IniciaTranslateFile: iTranslateFile;

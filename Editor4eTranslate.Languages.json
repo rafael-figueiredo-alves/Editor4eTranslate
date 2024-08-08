@@ -1,0 +1,64 @@
+﻿{
+    "pt-BR": {
+        "Main": {
+            "HintBtnNew": "Criar novo arquivo eTranslate",
+            "HintBtnOpen": "Abrir arquivo eTranslate",
+            "HintBtnSave": "Salvar Alterações",
+            "HintBtnSaveAs": "Salvar arquivo eTranslate como ...",
+            "HintBtnClose": "Fechar arquivo eTranslate",
+            "HintBtnAddLanguage": "Adicionar novo idioma",
+            "HintBtnViewJSON": "Visualizar JSON",
+            "HintBtnGenerateFiles": "Gerar units para linguagens",
+            "HintBtnSetup": "Configurações",
+            "HintBtnAbout": "Informações sobre o {0}",
+            "LeftPanel": {
+                "HintBtnNewScreen": "Adicionar Tela ou Página",
+                "HintBtnAddItem": "Adiciona subitem a tela (componente, subtela, etc)",
+                "HintBtnRemoveItem": "Remove subitem da tela (componente, subtela, etc)"
+            },
+            "Grid": {
+                "TextKeyColumn": "Chave",
+                "HintBtnAddKeyValue": "Adicionar novo conjunto de chave-valores",
+                "HintBtnRRemoveKeyValue": "Remover conjunto de chave-valores"
+            }
+        },
+        "AboutDlg": {
+            "Title": "Sobre o {0}",
+            "Version": "versão {0}"
+        },
+        "PreviewJson": {
+            "Title": "Visualizando JSON"
+        }
+    },
+    "en-US": {
+        "Main": {
+            "HintBtnNew": "Create new eTranslate file",
+            "HintBtnOpen": "Open eTranslate file",
+            "HintBtnSave": "Save Changes",
+            "HintBtnSaveAs": "Save eTranslate file As ...",
+            "HintBtnClose": "Close eTranslate file",
+            "HintBtnAddLanguage": "Add new language",
+            "HintBtnViewJSON": "Preview JSON",
+            "HintBtnGenerateFiles": "Generate programming language units",
+            "HintBtnSetup": "Settings",
+            "HintBtnAbout": "About {0}",
+            "LeftPanel": {
+                "HintBtnNewScreen": "Add Screen or Page",
+                "HintBtnAddItem": "Add subitem to screen or page (component, subscreen, etc)",
+                "HintBtnRemoveItem": "Remove subitem to screen or page (component, subscreen, etc)"
+            },
+            "Grid": {
+                "TextKeyColumn": "Key",
+                "HintBtnAddKeyValue": "Add new collection of key-values",
+                "HintBtnRRemoveKeyValue": "Remove collection of key-values"
+            }
+        },
+        "AboutDlg": {
+            "Title": "About {0}",
+            "Version": "version {0}"
+        },
+        "PreviewJson": {
+            "Title": "Preview JSON"
+        }
+    }
+}
