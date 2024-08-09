@@ -219,6 +219,10 @@
             <Form>frmViewJSON</Form>
         </DCCReference>
         <DCCReference Include="Editor4eTranslate.ConfigFile.pas"/>
+        <DCCReference Include="Editor4eTranslate.frmConfig.pas">
+            <Form>frmConfig</Form>
+            <FormType>fmx</FormType>
+        </DCCReference>
         <RcItem Include="Editor4eTranslate.Languages.json">
             <ContainerId>ResourceItem</ContainerId>
             <ResourceType>RCDATA</ResourceType>

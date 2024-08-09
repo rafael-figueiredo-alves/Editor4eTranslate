@@ -84,6 +84,7 @@ type
     procedure btnDeleteValueClick(Sender: TObject);
     procedure btnSalvarClick(Sender: TObject);
     procedure btnViewJSONClick(Sender: TObject);
+    procedure btnConfiguracoesClick(Sender: TObject);
   private
     { Private declarations }
     TranslateFile : iTranslateFile;
@@ -111,6 +112,7 @@ uses
   Editor4etranslate.ConfigFile,
   Editor4etranslate.Consts,
   Editor4eTranslate.InsertNode,
+  Editor4eTranslate.frmConfig,
   FMX.DialogService,
   uViewJSON;
 
@@ -284,6 +286,12 @@ begin
    end;
 end;
 
+procedure TFrmMain.btnConfiguracoesClick(Sender: TObject);
+begin
+  if AbrirConfiguracoes = mrOk then
+   ShowMessage('Executar função para atualizar config');
+end;
+
 procedure TFrmMain.btnDeleteNoClick(Sender: TObject);
 begin
   if(MsgConfirma('Você está prestes a apagar a chave de valores "' + tvEstrutura.Selected.Text + '". Tem certeza que deseja apagá-la?'))then
@@ -348,6 +356,8 @@ end;
 procedure TFrmMain.FormCreate(Sender: TObject);
 begin
   SetVisibleComponents(false);
+  //Ocultando por enquanto pois recurso não está pronto
+  btnExportScript.Visible := False;
   BarraDeStatus.Visible := ConfigFile.ShowStatusBar;
 end;
 

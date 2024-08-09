@@ -1,0 +1,150 @@
+object frmConfig: TfrmConfig
+  Left = 0
+  Top = 0
+  BorderStyle = Single
+  Caption = 'Configura'#231#245'es'
+  ClientHeight = 348
+  ClientWidth = 372
+  Position = MainFormCenter
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  OnCreate = FormCreate
+  OnClose = FormClose
+  DesignerMasterStyle = 0
+  object lblIdiomaSistema: TLabel
+    Align = Top
+    Margins.Left = 20.000000000000000000
+    Margins.Top = 20.000000000000000000
+    Margins.Right = 20.000000000000000000
+    Margins.Bottom = 10.000000000000000000
+    Position.X = 20.000000000000000000
+    Position.Y = 20.000000000000000000
+    Size.Width = 332.000000000000000000
+    Size.Height = 17.000000000000000000
+    Size.PlatformDefault = False
+    Text = 'Idioma do Editor4eTranslate:'
+    TabOrder = 2
+  end
+  object lblIdiomaPadraoNovo: TLabel
+    Align = Top
+    Margins.Left = 20.000000000000000000
+    Margins.Top = 20.000000000000000000
+    Margins.Right = 20.000000000000000000
+    Margins.Bottom = 10.000000000000000000
+    Position.X = 20.000000000000000000
+    Position.Y = 99.000000000000000000
+    Size.Width = 332.000000000000000000
+    Size.Height = 17.000000000000000000
+    Size.PlatformDefault = False
+    Text = 'Idioma para usar ao criar novo arquivo:'
+    TabOrder = 1
+  end
+  object lblIdentacaoJSON: TLabel
+    Align = Top
+    Margins.Left = 20.000000000000000000
+    Margins.Top = 20.000000000000000000
+    Margins.Right = 20.000000000000000000
+    Margins.Bottom = 10.000000000000000000
+    Position.X = 20.000000000000000000
+    Position.Y = 178.000000000000000000
+    Size.Width = 332.000000000000000000
+    Size.Height = 17.000000000000000000
+    Size.PlatformDefault = False
+    Text = 'Espa'#231'os de identa'#231#227'o usados no JSON:'
+    TabOrder = 0
+    object chExibirStatusBar: TCheckBox
+      Align = Top
+      Margins.Left = 10.000000000000000000
+      Margins.Top = 80.000000000000000000
+      Margins.Right = 20.000000000000000000
+      Margins.Bottom = 10.000000000000000000
+      Position.X = 10.000000000000000000
+      Position.Y = 80.000000000000000000
+      Size.Width = 302.000000000000000000
+      Size.Height = 19.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 3
+      Text = 'Exibir barra de status'
+      OnChange = cbLanguageChange
+    end
+  end
+  object cbLanguage: TComboBox
+    Align = Top
+    Items.Strings = (
+      'Portugu'#234's/Portuguese'
+      'Ingl'#234's/English')
+    ItemIndex = 0
+    Margins.Left = 20.000000000000000000
+    Margins.Right = 20.000000000000000000
+    Margins.Bottom = 10.000000000000000000
+    Position.X = 20.000000000000000000
+    Position.Y = 47.000000000000000000
+    Size.Width = 332.000000000000000000
+    Size.Height = 22.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 4
+    OnChange = cbLanguageChange
+  end
+  object cbDefaultLanguage: TComboBox
+    Align = Top
+    Items.Strings = (
+      '(Definir)'
+      'pt-BR'
+      'en-US'
+      'es-ES'
+      'fr-FR'
+      'de-DE'
+      'it-IT'
+      'sv-SE'
+      'nl-NL'
+      'pl-PL')
+    ItemIndex = 0
+    Margins.Left = 20.000000000000000000
+    Margins.Right = 20.000000000000000000
+    Margins.Bottom = 10.000000000000000000
+    Position.X = 20.000000000000000000
+    Position.Y = 126.000000000000000000
+    Size.Width = 332.000000000000000000
+    Size.Height = 22.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 3
+    OnChange = cbLanguageChange
+  end
+  object EdIdentacao: TSpinBox
+    Touch.InteractiveGestures = [LongTap, DoubleTap]
+    Align = Top
+    TabOrder = 5
+    Cursor = crIBeam
+    Value = 4.000000000000000000
+    Position.X = 20.000000000000000000
+    Position.Y = 205.000000000000000000
+    Margins.Left = 20.000000000000000000
+    Margins.Right = 20.000000000000000000
+    Margins.Bottom = 10.000000000000000000
+    Size.Width = 332.000000000000000000
+    Size.Height = 22.000000000000000000
+    Size.PlatformDefault = False
+    OnChange = cbLanguageChange
+  end
+  object lytBtns: TLayout
+    Align = Top
+    Margins.Top = 60.000000000000000000
+    Position.Y = 297.000000000000000000
+    Size.Width = 372.000000000000000000
+    Size.Height = 50.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 6
+    object btnSalvar: TSpeedButton
+      Align = Right
+      Margins.Right = 10.000000000000000000
+      Position.X = 270.000000000000000000
+      Size.Width = 92.000000000000000000
+      Size.Height = 50.000000000000000000
+      Size.PlatformDefault = False
+      StyleLookup = 'donetoolbutton'
+      Text = 'Salvar'
+      OnClick = btnSalvarClick
+    end
+  end
+end

@@ -79,6 +79,8 @@ end;
 
 function TConfig.CancelChanges: boolean;
 begin
+  FreeAndNil(fConfigFile);
+
   if(fileExists(fConfigFilePath))then
    fConfigFile := GetJSONObjectFromFile(fConfigFilePath)
   else

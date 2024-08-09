@@ -19,7 +19,8 @@ uses
   Editor4eTranslate.InsertNode in 'Editor4eTranslate.InsertNode.pas' {frmInsertNode},
   uViewJSON in 'uViewJSON.pas' {frmViewJSON},
   Editor4eTranslate.ConfigFile in 'Editor4eTranslate.ConfigFile.pas',
-  System.SysUtils;
+  System.SysUtils,
+  Editor4eTranslate.frmConfig in 'Editor4eTranslate.frmConfig.pas' {frmConfig};
 
 {$R *.res}
 
@@ -30,5 +31,6 @@ begin
   GetLanguageFileFromResources;
   eTranslate(LanguageFile, ConfigFile.Language);
   Application.CreateForm(TFrmMain, FrmMain);
+  Application.CreateForm(TfrmConfig, frmConfig);
   Application.Run;
 end.
