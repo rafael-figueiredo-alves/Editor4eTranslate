@@ -6,7 +6,7 @@ uses
   System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.Layouts,
   FMX.Objects, FMX.Memo.Types, FMX.Controls.Presentation, FMX.ScrollBox,
-  FMX.Memo, System.Skia, FMX.Skia;
+  FMX.Memo, System.Skia, FMX.Skia, FMX.StdCtrls;
 
 type
   TFrmSobre = class(TForm)
@@ -18,6 +18,8 @@ type
     lbVersao: TSkLabel;
     Layout1: TLayout;
     libVersion: TSkLabel;
+    Layout2: TLayout;
+    Label1: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure libVersionWords3Click(Sender: TObject);
   private
@@ -34,7 +36,8 @@ implementation
 Uses
   Editor4eTranslate.Consts,
   Winapi.ShellAPI,
-  Winapi.Windows;
+  Winapi.Windows,
+  eTranslate4Pascal;
 
 {$R *.fmx}
 
@@ -45,6 +48,7 @@ const
 begin
   lbVersao.Words.Items[LabelNomeAplicativo].Text := NomeAplicativo;
   lbVersao.Words.Items[LabelVersao].Text         := ' versão '+ VersaoAplicativo;
+  libVersion.Words.ItemByName['version'].Text    := eTranslate.Version;
 end;
 
 procedure TFrmSobre.libVersionWords3Click(Sender: TObject);
