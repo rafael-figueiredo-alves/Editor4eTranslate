@@ -69,6 +69,7 @@ end;
 procedure TfrmConfig.btnSalvarClick(Sender: TObject);
 begin
   Salvar;
+  Close;
 end;
 
 procedure TfrmConfig.cbLanguageChange(Sender: TObject);

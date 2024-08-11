@@ -4,8 +4,8 @@ object FrmSobre: TFrmSobre
   BorderIcons = [biSystemMenu]
   BorderStyle = ToolWindow
   Caption = 'Sobre o Editor4eTranslate'
-  ClientHeight = 308
-  ClientWidth = 628
+  ClientHeight = 364
+  ClientWidth = 796
   Position = MainFormCenter
   FormFactor.Width = 320
   FormFactor.Height = 480
@@ -1280,13 +1280,13 @@ object FrmSobre: TFrmSobre
     Margins.Top = 10.000000000000000000
     Margins.Right = 10.000000000000000000
     Margins.Bottom = 10.000000000000000000
-    Size.Width = 398.000000000000000000
+    Size.Width = 566.000000000000000000
     Size.Height = 288.000000000000000000
     Size.PlatformDefault = False
     TabOrder = 1
     object lytTitle: TLayout
       Align = Top
-      Size.Width = 398.000000000000000000
+      Size.Width = 566.000000000000000000
       Size.Height = 50.000000000000000000
       Size.PlatformDefault = False
       TabOrder = 0
@@ -1343,12 +1343,60 @@ object FrmSobre: TFrmSobre
       Margins.Top = 5.000000000000000000
       Margins.Right = 5.000000000000000000
       Margins.Bottom = 5.000000000000000000
-      Size.Width = 388.000000000000000000
+      Size.Width = 556.000000000000000000
       Size.Height = 228.000000000000000000
       Size.PlatformDefault = False
       TabOrder = 1
-      Viewport.Width = 368.000000000000000000
+      Viewport.Width = 552.000000000000000000
       Viewport.Height = 224.000000000000000000
+    end
+  end
+  object Layout1: TLayout
+    Align = Bottom
+    Margins.Left = 10.000000000000000000
+    Margins.Right = 10.000000000000000000
+    Margins.Bottom = 10.000000000000000000
+    Position.X = 10.000000000000000000
+    Position.Y = 308.000000000000000000
+    Size.Width = 776.000000000000000000
+    Size.Height = 46.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 3
+    object libVersion: TSkLabel
+      Align = Client
+      Margins.Left = 10.000000000000000000
+      Margins.Top = 5.000000000000000000
+      Margins.Right = 10.000000000000000000
+      Margins.Bottom = 5.000000000000000000
+      Size.Width = 756.000000000000000000
+      Size.Height = 36.000000000000000000
+      Size.PlatformDefault = False
+      Words = <
+        item
+          Name = 'Item 0'
+          Text = 'Usando biblioteca eTranslate'
+        end
+        item
+          Name = 'Item 1'
+          Text = ' vers'#227'o 1.0. '
+        end
+        item
+          Name = 'Item 2'
+          Text = '('
+        end
+        item
+          Decorations.Decorations = [Underline]
+          Font.Weight = Bold
+          FontColor = xFF1D6FFB
+          Name = 'Item 3'
+          StyledSettings = [Family, Size]
+          Text = 'https://github.com/rafael-figueiredo-alves/eTranslate4Pascal'
+          OnClick = libVersionWords3Click
+        end
+        item
+          Name = 'Item 4'
+          Text = ')'
+        end>
     end
   end
 end

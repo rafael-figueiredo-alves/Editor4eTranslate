@@ -1,6 +1,7 @@
 object frmConfig: TfrmConfig
   Left = 0
   Top = 0
+  BorderIcons = [biSystemMenu]
   BorderStyle = Single
   Caption = 'Configura'#231#245'es'
   ClientHeight = 348
@@ -64,7 +65,7 @@ object frmConfig: TfrmConfig
       Size.Width = 302.000000000000000000
       Size.Height = 19.000000000000000000
       Size.PlatformDefault = False
-      TabOrder = 3
+      TabOrder = 4
       Text = 'Exibir barra de status'
       OnChange = cbLanguageChange
     end

@@ -16,7 +16,10 @@ type
     lytTitle: TLayout;
     mmInfo: TMemo;
     lbVersao: TSkLabel;
+    Layout1: TLayout;
+    libVersion: TSkLabel;
     procedure FormCreate(Sender: TObject);
+    procedure libVersionWords3Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -28,7 +31,10 @@ var
 
 implementation
 
-Uses Editor4eTranslate.Consts;
+Uses
+  Editor4eTranslate.Consts,
+  Winapi.ShellAPI,
+  Winapi.Windows;
 
 {$R *.fmx}
 
@@ -39,6 +45,13 @@ const
 begin
   lbVersao.Words.Items[LabelNomeAplicativo].Text := NomeAplicativo;
   lbVersao.Words.Items[LabelVersao].Text         := ' versão '+ VersaoAplicativo;
+end;
+
+procedure TFrmSobre.libVersionWords3Click(Sender: TObject);
+const
+   LinkRepo = 3;
+begin
+  ShellExecute(0, 'OPEN', PChar(libVersion.Words.Items[LinkRepo].Text), '', '', SW_SHOWNORMAL);
 end;
 
 end.

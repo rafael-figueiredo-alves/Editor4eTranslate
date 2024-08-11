@@ -98,6 +98,7 @@ type
     procedure MsgErro(const Msg: string);
     function MsgConfirma(const Msg: string): boolean;
     function OpenInsertNode(const Caption, text: string; out Valor: string): boolean;
+    procedure ApplySettings;
   public
     { Public declarations }
   end;
@@ -114,7 +115,8 @@ uses
   Editor4eTranslate.InsertNode,
   Editor4eTranslate.frmConfig,
   FMX.DialogService,
-  uViewJSON;
+  uViewJSON,
+  eTranslate4Pascal;
 
 {$R *.fmx}
 
@@ -125,6 +127,14 @@ var
 begin
   if(Assigned(TranslateFile))then
    FecharArquivo;
+
+  if(ConfigFile.DefaultLanguage <> EmptyStr)then
+   begin
+    SetVisibleComponents(true);
+    TranslateFile := IniciaTranslateFile.NewFile(ConfigFile.DefaultLanguage);
+    SetFrmMainCaption(TranslateFile.NomeDoArquivo);
+    exit;
+   end;
 
   if(OpenInsertNode('Criar novo arquivo',
                     'Informe o Idioma padrão inicial para adicionar suporte ao seu sistema. Não use ponto final nem caracteres especiais com exceção do hífen(-) e underscore(_). Utilize o padrão, como, por exemplo, "pt-BR" ou "en-US".',
@@ -228,6 +238,12 @@ begin
 end;
 {$ENDREGION}
 
+procedure TFrmMain.ApplySettings;
+begin
+   BarraDeStatus.Visible := ConfigFile.ShowStatusBar;
+   eTranslate.SetLanguage(ConfigFile.Language);
+end;
+
 procedure TFrmMain.btnAbrirClick(Sender: TObject);
 begin
   dlgAbrir.Filter     := Filters;
@@ -289,7 +305,7 @@ end;
 procedure TFrmMain.btnConfiguracoesClick(Sender: TObject);
 begin
   if AbrirConfiguracoes = mrOk then
-   ShowMessage('Executar função para atualizar config');
+   ApplySettings;
 end;
 
 procedure TFrmMain.btnDeleteNoClick(Sender: TObject);
