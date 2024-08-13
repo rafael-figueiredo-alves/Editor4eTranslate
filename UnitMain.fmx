@@ -1683,6 +1683,26 @@ object FrmMain: TFrmMain
     Size.Height = 22.000000000000000000
     Size.PlatformDefault = False
     TabOrder = 9
+    object lbStatusBarExplicativo: TLabel
+      Align = Left
+      StyledSettings = [Family, Size, FontColor]
+      Margins.Left = 20.000000000000000000
+      Position.X = 20.000000000000000000
+      Size.Width = 149.000000000000000000
+      Size.Height = 22.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.Font.StyleExt = {00070000000000000004000000}
+      Text = 'Rota do conte'#250'do Json:'
+      TabOrder = 1
+    end
+    object lbRotaJson: TLabel
+      Align = Client
+      Margins.Right = 30.000000000000000000
+      Size.Width = 701.000000000000000000
+      Size.Height = 22.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 2
+    end
   end
   object AssetsImages: TImageList
     Source = <

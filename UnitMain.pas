@@ -68,6 +68,8 @@ type
     MenuItem2: TMenuItem;
     btnConfiguracoes: TSpeedButton;
     BarraDeStatus: TStatusBar;
+    lbStatusBarExplicativo: TLabel;
+    lbRotaJson: TLabel;
     procedure btnNovoClick(Sender: TObject);
     procedure btnFecharClick(Sender: TObject);
     procedure btnSobreClick(Sender: TObject);
@@ -404,10 +406,22 @@ begin
    if(TranslateFile <> nil)then
     begin
       btnSalvar.Enabled := TranslateFile.isModified;
+      if(BarraDeStatus.Visible)then
+       begin
+         lbStatusBarExplicativo.Visible := true;
+         lbRotaJson.Visible             := true;
+         lbRotaJson.Text                := TranslateFile.GetPath;
+       end;
     end
    else
     begin
       btnSalvar.Enabled := false;
+      if(BarraDeStatus.Visible)then
+       begin
+         lbStatusBarExplicativo.Visible := false;
+         lbRotaJson.Visible             := false;
+         lbRotaJson.Text                := '';
+       end;
     end;
 end;
 

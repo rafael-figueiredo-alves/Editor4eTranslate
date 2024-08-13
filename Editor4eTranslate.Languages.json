@@ -20,14 +20,42 @@
                 "TextKeyColumn": "Chave",
                 "HintBtnAddKeyValue": "Adicionar novo conjunto de chave-valores",
                 "HintBtnRRemoveKeyValue": "Remover conjunto de chave-valores"
-            }
+            },
+            "ConfirmSave": "O Documento \"{0}\" foi alterado, mas suas alterações não foram salvas ainda. Deseja SALVÁ-LAS?"
         },
         "AboutDlg": {
             "Title": "Sobre o {0}",
-            "Version": "versão {0}"
+            "Version": "versão {0}",
+            "AboutLib": "* Usando biblioteca eTranslate versão "
         },
         "PreviewJson": {
             "Title": "Visualizando JSON"
+        },
+        "SettingsDlg": {
+            "title": "Configurações",
+            "BtnSalvar": "Salvar",
+            "SystemLanguage": "Idioma do {0}:",
+            "system_ptBR": "Português",
+            "system_enUS": "Inglês",
+            "chShowStatusBar": "Exibir barra de status",
+            "IdentacaoJson": "Espaços de identação usados no JSON:",
+            "NewFileDefaultLanguage": "Idioma para usar ao criar novo arquivo:",
+            "DefaultLanguage_0": "(Definir)",
+            "MsgC": "Você alterou algumas configurações, mas não as salvou. Deseja salvá-las e aplicá-las antes de fechar esta tela?"
+        },
+        "TranslateFile": {
+            "Filters": "Arquivo de tradução eTranslate(*.json)|*.json|Arquivo de tradução eTranslate(*.eTranslate)|*.eTranslate",
+            "Untitled": "SemTitulo.json"
+        },
+        "OpenInsertNode": {
+            "NewFileTitle": "Criar novo arquivo",
+            "NewFileBody": "Informe o Idioma padrão inicial para adicionar suporte ao seu sistema. Não use ponto final nem caracteres especiais com exceção do hífen(-) e underscore(_). Utilize o padrão, como, por exemplo, pt-BR ou en-US.",
+            "NewScreenTitle": "Adicionar Nova Tela",
+            "NewScreenBody": "Informe um nome único para a tela no seu sistema a receber um grupo de valores de tradução. Não use ponto final nem caracteres especiais com exceção do hífen(-) e underscore(_).",
+            "NewScreenError": "Não é possível adicionar 2 ou mais telas com o mesmo nome.",
+            "NewGroupTitle": "Adicionar Novo grupo de controles",
+            "NewGroupBody": "Informe um nome único para o grupo de controles da tela no seu sistema a receber um grupo de valores de tradução. Não use ponto final nem caracteres especiais com exceção do hífen(-) e underscore(_).",
+            "NewGroupError": "Não é possível adicionar 2 ou mais grupos de controles a uma mesma tela com o mesmo nome."
         }
     },
     "en-US": {
@@ -51,14 +79,42 @@
                 "TextKeyColumn": "Key",
                 "HintBtnAddKeyValue": "Add new collection of key-values",
                 "HintBtnRRemoveKeyValue": "Remove collection of key-values"
-            }
+            },
+            "ConfirmSave": "The file \"{0}\" has been changed, but its changes haven't been saved yet. Would you like to SAVE THEM??"
         },
         "AboutDlg": {
             "Title": "About {0}",
-            "Version": "version {0}"
+            "Version": "version {0}",
+            "AboutLib": "* Using eTranslate library version  "
         },
         "PreviewJson": {
             "Title": "Preview JSON"
+        },
+        "SettingsDlg": {
+            "title": "Settings",
+            "BtnSalvar": "Save",
+            "SystemLanguage": "{0}'s Language:",
+            "system_ptBR": "Portuguese",
+            "system_enUS": "English",
+            "chShowStatusBar": "Show status bar",
+            "IdentacaoJson": "Identation spaces used by JSON:",
+            "NewFileDefaultLanguage": "Language to use when create a new file:",
+            "DefaultLanguage_0": "(Set)",
+            "MsgC": "You made some changes, but you didn't save them. Would you like to save and apply them before closing this dialog?"
+        },
+        "TranslateFile": {
+            "Filters": "eTranslate Translation File(*.json)|*.json|eTranslate Translate File(*.eTranslate)|*.eTranslate",
+            "Untitled": "Untitled.json"
+        },
+        "OpenInsertNode": {
+            "NewFileTitle": "Create new file",
+            "NewFileBody": "Input the default language to add support on your software. Don't use period or special characters except hythens(-) and underscores(_). Use the standard, like, for instance, pt-BR or en-US.",
+            "NewScreenTitle": "Add new screen",
+            "NewScreenBody": "Input a unique name for a screen in your software to get a collection of values for translation. Don't use period or special characters except hythens(-) and underscores(_). ",
+            "NewScreenError": "It's not possible to add 2 or more screens with the same name.",
+            "NewGroupTitle": "Add new group of controls",
+            "NewGroupBody": "Input a unique name for a group of controls in your software to get a collection of values for translation. Don't use period or special characters except hythens(-) and underscores(_). ",
+            "NewGroupError": "It's not possiible to add 2 or more groups of controls in a same screen with the same name."
         }
     }
 }

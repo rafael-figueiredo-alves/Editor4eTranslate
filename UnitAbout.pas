@@ -19,14 +19,17 @@ type
     Layout1: TLayout;
     libVersion: TSkLabel;
     Layout2: TLayout;
-    Label1: TLabel;
+    Editor4eTranslateRepository: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure libVersionWords3Click(Sender: TObject);
+    procedure Editor4eTranslateRepositoryClick(Sender: TObject);
   private
     { Private declarations }
   public
     { Public declarations }
   end;
+
+  procedure OpenURL(const URL: string);
 
 var
   FrmSobre: TFrmSobre;
@@ -51,11 +54,21 @@ begin
   libVersion.Words.ItemByName['version'].Text    := eTranslate.Version;
 end;
 
+procedure TFrmSobre.Editor4eTranslateRepositoryClick(Sender: TObject);
+begin
+  OpenURL(Editor4eTranslateRepository.Text);
+end;
+
 procedure TFrmSobre.libVersionWords3Click(Sender: TObject);
 const
    LinkRepo = 3;
 begin
-  ShellExecute(0, 'OPEN', PChar(libVersion.Words.Items[LinkRepo].Text), '', '', SW_SHOWNORMAL);
+  OpenURL(libVersion.Words.Items[LinkRepo].Text);
+end;
+
+procedure OpenURL(const URL: string);
+begin
+  ShellExecute(0, 'OPEN', PChar(URL), '', '', SW_SHOWNORMAL);
 end;
 
 end.

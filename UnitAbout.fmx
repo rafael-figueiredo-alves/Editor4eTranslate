@@ -1357,10 +1357,22 @@ object FrmSobre: TFrmSobre
       Size.Height = 39.000000000000000000
       Size.PlatformDefault = False
       TabOrder = 2
-      object Label1: TLabel
-        Align = Center
-        Text = 'Label1'
+      object Editor4eTranslateRepository: TLabel
+        Align = Client
+        AutoSize = True
+        Cursor = crHandPoint
+        StyledSettings = [Family]
+        HitTest = True
+        Size.Width = 566.000000000000000000
+        Size.Height = 39.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.Font.Size = 14.000000000000000000
+        TextSettings.Font.StyleExt = {04070000000000000004000000}
+        TextSettings.FontColor = xFF1D6FFB
+        TextSettings.HorzAlign = Center
+        Text = 'https://github.com/rafael-figueiredo-alves/Editor4eTranslate'
         TabOrder = 0
+        OnClick = Editor4eTranslateRepositoryClick
       end
     end
   end

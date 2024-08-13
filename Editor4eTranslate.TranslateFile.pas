@@ -25,6 +25,7 @@ type
    function isAlreadySavedAs: boolean;
    Function GetJson: string;
    Function NomeDoArquivo: string;
+   function GetPath: string;
  end;
 
  TTranslateFile = class(TInterfacedObject, iTranslateFile)
@@ -65,6 +66,7 @@ type
      function isAlreadySavedAs: boolean;
      Function NomeDoArquivo: string;
      Function GetJson: string;
+     function GetPath: string;
      Constructor Create(const TreeView: TTreeView; Grid: TStringGrid;dlgSave: TSaveDialog);
      Destructor Destroy; override;
      class function New(const TreeView: TTreeView; Grid: TStringGrid;dlgSave: TSaveDialog): iTranslateFile;
@@ -313,6 +315,11 @@ end;
 function TTranslateFile.GetJson: string;
 begin
   Result := JsonFile.Format(ConfigFile.Identacao);
+end;
+
+function TTranslateFile.GetPath: string;
+begin
+  Result := NodePath;
 end;
 
 procedure TTranslateFile.GridEditDone(Sender: TObject; const ACol,ARow: Integer);
