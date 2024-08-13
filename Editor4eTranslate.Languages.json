@@ -14,7 +14,9 @@
             "LeftPanel": {
                 "HintBtnNewScreen": "Adicionar Tela ou Página",
                 "HintBtnAddItem": "Adiciona subitem a tela (componente, subtela, etc)",
-                "HintBtnRemoveItem": "Remove subitem da tela (componente, subtela, etc)"
+                "HintBtnRemoveItem": "Remove subitem da tela (componente, subtela, etc)",
+                "ContextMenu": {
+                }
             },
             "Grid": {
                 "TextKeyColumn": "Chave",
@@ -73,7 +75,9 @@
             "LeftPanel": {
                 "HintBtnNewScreen": "Add Screen or Page",
                 "HintBtnAddItem": "Add subitem to screen or page (component, subscreen, etc)",
-                "HintBtnRemoveItem": "Remove subitem to screen or page (component, subscreen, etc)"
+                "HintBtnRemoveItem": "Remove subitem to screen or page (component, subscreen, etc)",
+                "ContextMenu": {
+                }
             },
             "Grid": {
                 "TextKeyColumn": "Key",

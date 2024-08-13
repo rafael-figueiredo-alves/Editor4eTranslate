@@ -1317,6 +1317,22 @@ object FrmSobre: TFrmSobre
       Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
       DataDetectorTypes = []
       Lines.Strings = (
+        'Vers'#227'o 1.2.0 - 01/09/2024'
+        
+          '=> Adicionado suporte aos idiomas Ingl'#234's e Portugu'#234's atrav'#233's da ' +
+          'lib eTranslate.'
+        
+          '=> Adicionadas refer'#234'ncias aos reposit'#243'rios do Editor e da lib e' +
+          'Translate no formul'#225'rio "Sobre o sistema".'
+        '=> Adicionada barra de status para exibir a rota atual.'
+        
+          '=> Adicionada tela para setar configura'#231#245'es como identa'#231#227'o do Js' +
+          'on produzido, idioma do sistema, idioma padr'#227'o dos novos arquivo' +
+          's e outros.'
+        
+          '=> Adicionado menu de contexto a barra lateral de estrutura do a' +
+          'rquivo de tradu'#231#227'o.'
+        ''
         'Vers'#227'o 1.1.0 - 01/08/2024'
         
           '=> Corrigido comportamento do bot'#227'o novo para permitir definir o' +
@@ -1347,7 +1363,7 @@ object FrmSobre: TFrmSobre
       Size.Height = 201.000000000000000000
       Size.PlatformDefault = False
       TabOrder = 1
-      Viewport.Width = 552.000000000000000000
+      Viewport.Width = 536.000000000000000000
       Viewport.Height = 197.000000000000000000
     end
     object Layout2: TLayout

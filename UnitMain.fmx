@@ -1246,6 +1246,7 @@ object FrmMain: TFrmMain
         end
         object tvEstrutura: TTreeView
           Align = Client
+          PopupMenu = PopMenuEstrutura
           Size.Width = 269.000000000000000000
           Size.Height = 410.000000000000000000
           Size.PlatformDefault = False
@@ -1666,14 +1667,28 @@ object FrmMain: TFrmMain
     Left = 361
     Top = 190
   end
-  object PopupMenu1: TPopupMenu
-    Left = 479
-    Top = 199
-    object MenuItem1: TMenuItem
-      Text = 'MenuItem1'
+  object PopMenuEstrutura: TPopupMenu
+    Images = AssetsImages
+    OnPopup = PopMenuEstruturaPopup
+    Left = 175
+    Top = 303
+    object pmnAddScreen: TMenuItem
+      Text = 'Adicionar tela ou p'#225'gina'
+      ImageIndex = 9
+      OnClick = btnAddFormClick
     end
-    object MenuItem2: TMenuItem
-      Text = 'MenuItem2'
+    object pmnDivisor: TMenuItem
+      Text = '-'
+    end
+    object pmnAddNo: TMenuItem
+      Text = 'Adicionar subgrupo ou cole'#231#227'o de componentes'
+      ImageIndex = 6
+      OnClick = btnAddNoClick
+    end
+    object pmnDeleteNo: TMenuItem
+      Text = 'Apagar Tela ou subgrupo ou cole'#231#227'o de itens'
+      ImageIndex = 7
+      OnClick = btnDeleteNoClick
     end
   end
   object BarraDeStatus: TStatusBar

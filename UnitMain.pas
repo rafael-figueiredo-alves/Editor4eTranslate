@@ -63,13 +63,15 @@ type
     Rectangle2: TRectangle;
     btnViewJSON: TSpeedButton;
     btnExportScript: TSpeedButton;
-    PopupMenu1: TPopupMenu;
-    MenuItem1: TMenuItem;
-    MenuItem2: TMenuItem;
+    PopMenuEstrutura: TPopupMenu;
     btnConfiguracoes: TSpeedButton;
     BarraDeStatus: TStatusBar;
     lbStatusBarExplicativo: TLabel;
     lbRotaJson: TLabel;
+    pmnAddScreen: TMenuItem;
+    pmnDivisor: TMenuItem;
+    pmnAddNo: TMenuItem;
+    pmnDeleteNo: TMenuItem;
     procedure btnNovoClick(Sender: TObject);
     procedure btnFecharClick(Sender: TObject);
     procedure btnSobreClick(Sender: TObject);
@@ -87,6 +89,7 @@ type
     procedure btnSalvarClick(Sender: TObject);
     procedure btnViewJSONClick(Sender: TObject);
     procedure btnConfiguracoesClick(Sender: TObject);
+    procedure PopMenuEstruturaPopup(Sender: TObject);
   private
     { Private declarations }
     TranslateFile : iTranslateFile;
@@ -188,6 +191,20 @@ begin
   finally
     FreeAndNil(frmInsertNode);
   end;
+end;
+
+procedure TFrmMain.PopMenuEstruturaPopup(Sender: TObject);
+begin
+  if(tvEstrutura.Selected <> nil)then
+   begin
+     pmnAddNo.Enabled  := True;
+     pmnDeleteNo.Enabled := true;
+   end
+  else
+   begin
+     pmnAddNo.Enabled  := false;
+     pmnDeleteNo.Enabled := false;
+   end;
 end;
 
 procedure TFrmMain.SetFrmMainCaption(const FileName: string);
