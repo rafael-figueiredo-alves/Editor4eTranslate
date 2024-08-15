@@ -50,8 +50,10 @@ const
    LabelVersao         = 1;
 begin
   lbVersao.Words.Items[LabelNomeAplicativo].Text := NomeAplicativo;
-  lbVersao.Words.Items[LabelVersao].Text         := ' versão '+ VersaoAplicativo;
+  lbVersao.Words.Items[LabelVersao].Text         := ' ' + eTranslate.Translate('AboutDlg.Version',[VersaoAplicativo]);
   libVersion.Words.ItemByName['version'].Text    := eTranslate.Version;
+  Caption := eTranslate.Translate('AboutDlg.Title', [NomeAplicativo]);
+  libversion.Words.ItemByName['prefix'].Text := eTranslate.Translate('AboutDlg.AboutLib') + ' ';
 end;
 
 procedure TFrmSobre.Editor4eTranslateRepositoryClick(Sender: TObject);

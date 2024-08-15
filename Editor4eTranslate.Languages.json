@@ -16,6 +16,9 @@
                 "HintBtnAddItem": "Adiciona subitem a tela (componente, subtela, etc)",
                 "HintBtnRemoveItem": "Remove subitem da tela (componente, subtela, etc)",
                 "ContextMenu": {
+                    "ItemAddScreen": "Adicionar tela ou página",
+                    "ItemAddGroup": "Adicionar subgrupo ou coleção de componentes",
+                    "ItemDelete": "Apagar Tela ou subgrupo ou coleção de itens"
                 }
             },
             "Grid": {
@@ -23,7 +26,9 @@
                 "HintBtnAddKeyValue": "Adicionar novo conjunto de chave-valores",
                 "HintBtnRRemoveKeyValue": "Remover conjunto de chave-valores"
             },
-            "ConfirmSave": "O Documento \"{0}\" foi alterado, mas suas alterações não foram salvas ainda. Deseja SALVÁ-LAS?"
+            "ConfirmSave": "O Documento {0} foi alterado, mas suas alterações não foram salvas ainda. Deseja SALVÁ-LAS?",
+            "ConfirmDeleteGroup": "Você está prestes a apagar o grupo \/ tela {0}. Tem certeza que deseja apagá-lo?",
+            "ConfirmDeleteValue": "Você está prestes a apagar a chave de valores {0}. Tem certeza que deseja apagá-la?"
         },
         "AboutDlg": {
             "Title": "Sobre o {0}",
@@ -57,7 +62,13 @@
             "NewScreenError": "Não é possível adicionar 2 ou mais telas com o mesmo nome.",
             "NewGroupTitle": "Adicionar Novo grupo de controles",
             "NewGroupBody": "Informe um nome único para o grupo de controles da tela no seu sistema a receber um grupo de valores de tradução. Não use ponto final nem caracteres especiais com exceção do hífen(-) e underscore(_).",
-            "NewGroupError": "Não é possível adicionar 2 ou mais grupos de controles a uma mesma tela com o mesmo nome."
+            "NewGroupError": "Não é possível adicionar 2 ou mais grupos de controles a uma mesma tela com o mesmo nome.",
+            "NewValueTile": "Adicionar Nova chave de valores",
+            "NewValueBody": "Informe um nome único para a chave de valores no seu sistema a receber os valores de tradução. Não use ponto final nem caracteres especiais com exceção do hífen(-) e underscore(_).",
+            "NewValueError": "Não é possível adicionar 2 ou mais chaves de valores com o mesmo nome dentro de um mesmo grupo ou janela.",
+            "NewLanguageTitle": "Adicionar Novo Idioma",
+            "NewLanguageBody": "Informe um novo Idioma para adicionar suporte ao seu sistema. Não use ponto final nem caracteres especiais com exceção do hífen(-) e underscore(_). Utilize o padrão, como, por exemplo, pt-BR ou en-US.",
+            "NewLanguageError": "Não é possível adicionar 2 ou mais idiomas iguais. Tente um idioma diferente."
         }
     },
     "en-US": {
@@ -77,6 +88,9 @@
                 "HintBtnAddItem": "Add subitem to screen or page (component, subscreen, etc)",
                 "HintBtnRemoveItem": "Remove subitem to screen or page (component, subscreen, etc)",
                 "ContextMenu": {
+                    "ItemAddScreen": "Add screen or page",
+                    "ItemAddGroup": "Add subgroup or collection of components",
+                    "ItemDelete": "Delete Screen or subgroup or collection of items"
                 }
             },
             "Grid": {
@@ -84,7 +98,9 @@
                 "HintBtnAddKeyValue": "Add new collection of key-values",
                 "HintBtnRRemoveKeyValue": "Remove collection of key-values"
             },
-            "ConfirmSave": "The file \"{0}\" has been changed, but its changes haven't been saved yet. Would you like to SAVE THEM??"
+            "ConfirmSave": "The file {0 has been changed, but its changes haven't been saved yet. Would you like to SAVE THEM??",
+            "ConfirmDeleteGroup": "You're about to delete the group or screen {0}. Are you sure you want to delete it?",
+            "ConfirmDeleteValue": "You're about to delete the key of values {0}. Are you sure you want to delete it?"
         },
         "AboutDlg": {
             "Title": "About {0}",
@@ -97,7 +113,7 @@
         "SettingsDlg": {
             "title": "Settings",
             "BtnSalvar": "Save",
-            "SystemLanguage": "{0}'s Language:",
+            "SystemLanguage": "{0}`s Language:",
             "system_ptBR": "Portuguese",
             "system_enUS": "English",
             "chShowStatusBar": "Show status bar",
@@ -118,7 +134,13 @@
             "NewScreenError": "It's not possible to add 2 or more screens with the same name.",
             "NewGroupTitle": "Add new group of controls",
             "NewGroupBody": "Input a unique name for a group of controls in your software to get a collection of values for translation. Don't use period or special characters except hythens(-) and underscores(_). ",
-            "NewGroupError": "It's not possiible to add 2 or more groups of controls in a same screen with the same name."
+            "NewGroupError": "It's not possible to add 2 or more groups of controls in a same screen with the same name.",
+            "NewValueTile": "Add new key of values",
+            "NewValueBody": "Input a unique name for a key of values in your software to get a collection of values for translation. Don't use period or special characters except hythens(-) and underscores(_).",
+            "NewValueError": "It's not possible to add 2 or more keys of values in a same screen or group with the same name.",
+            "NewLanguageTitle": "Add new language",
+            "NewLanguageBody": "Input a new language to add support on your software. Don't use period or special characters except hythens(-) and underscores(_). Use the standard, like, for instance, pt-BR or en-US.",
+            "NewLanguageError": "It's not possible to add 2 or more languages alike. Try a different language."
         }
     }
 }

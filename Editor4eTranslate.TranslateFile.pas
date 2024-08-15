@@ -84,7 +84,8 @@ uses
   Editor4eTranslate.Shared,
   System.Classes,
   Editor4eTranslate.StringGridHelper,
-  Editor4eTranslate.ConfigFile;
+  Editor4eTranslate.ConfigFile,
+  eTranslate4Pascal;
 
 { TTranslateFile }
 
@@ -223,11 +224,11 @@ begin
   FileGrid  := Grid;
   FileGrid.OnEditingDone := GridEditDone;
   SaveDlg := dlgSave;
-  SaveDlg.Filter     := Filters;
+  SaveDlg.Filter     := eTranslate.Translate('TranslateFile.Filters');
   SaveDlg.DefaultExt := DefaultExt;
 
   Column := TStringColumn.Create(FileGrid);
-  Column.Header := 'Chave/Key';
+  Column.Header := eTranslate.Translate('Main.Grid.TextKeyColumn');;
   Column.Parent := FileGrid;
   Column.Width := 400;
   Column.ReadOnly := true;
@@ -371,7 +372,7 @@ end;
 function TTranslateFile.NewFile(const DefaultLanguage: string): iTranslateFile;
 begin
   JsonFile  := TJSONObject.Create;
-  FileName := 'SemTitulo.json';
+  FileName := eTranslate.Translate('TranslateFile.Untitled');
   AddLanguage(DefaultLanguage);
   Modified := true;
   Result := self;

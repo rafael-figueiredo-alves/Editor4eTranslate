@@ -41,6 +41,7 @@ type
     procedure ChangedConfig;
     procedure salvar;
     function MsgConfirma(const Msg: string): boolean;
+    procedure ReadScreenTranslations;
   public
     { Public declarations }
   end;
@@ -54,7 +55,7 @@ implementation
 
 {$R *.fmx}
 
-uses Fmx.DialogService;
+uses Fmx.DialogService, eTranslate4Pascal, Editor4eTranslate.Consts;
 
 function AbrirConfiguracoes: TModalResult;
 begin
@@ -86,7 +87,7 @@ procedure TfrmConfig.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   if(Modified)then
    begin
-     if(MsgConfirma('Você alterou algumas configurações, mas não as salvou. Deseja salvá-las e aplicá-las antes de fechar esta tela?'))then
+     if(MsgConfirma(eTranslate.Translate('SettingsDlg.MsgC')))then
       salvar
      else
       ConfigFile.CancelChanges;
@@ -96,6 +97,7 @@ end;
 
 procedure TfrmConfig.FormCreate(Sender: TObject);
 begin
+  ReadScreenTranslations;
   GetSystemLanguage;
   GetDefaultLanguage;
   EdIdentacao.Value := ConfigFile.Identacao;
@@ -134,6 +136,22 @@ begin
         end;
     end);
   Result := Retorno;
+end;
+
+procedure TfrmConfig.ReadScreenTranslations;
+begin
+  Caption := eTranslate.Translate('SettingsDlg.title');
+  btnSalvar.Text := eTranslate.Translate('SettingsDlg.BtnSalvar');
+  lblIdiomaSistema.Text := eTranslate.Translate('SettingsDlg.SystemLanguage', [NomeAplicativo]);
+  lblIdiomaPadraoNovo.Text := eTranslate.Translate('SettingsDlg.NewFileDefaultLanguage');
+  lblIdiomaPadraoNovo.Text := eTranslate.Translate('SettingsDlg.NewFileDefaultLanguage');
+  chExibirStatusBar.Text := eTranslate.Translate('SettingsDlg.chShowStatusBar');
+  lblIdentacaoJSON.Text := eTranslate.Translate('SettingsDlg.IdentacaoJson');
+
+  cbLanguage.Items[0] := eTranslate.Translate('SettingsDlg.system_ptBR');
+  cbLanguage.Items[1] := eTranslate.Translate('SettingsDlg.system_enUS');
+
+  cbDefaultLanguage.Items[0] := eTranslate.Translate('SettingsDlg.DefaultLanguage_0');
 end;
 
 procedure TfrmConfig.salvar;

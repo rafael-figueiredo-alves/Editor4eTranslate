@@ -10,6 +10,7 @@ uses
 type
   TfrmViewJSON = class(TForm)
     memoJSON: TMemo;
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
   public
@@ -24,7 +25,8 @@ var
 implementation
 
 uses
-  System.SysUtils;
+  System.SysUtils,
+  eTranslate4Pascal;
 
 {$R *.fmx}
 
@@ -37,6 +39,11 @@ begin
   finally
     FreeAndNil(frmViewJSON);
   end;
+end;
+
+procedure TfrmViewJSON.FormCreate(Sender: TObject);
+begin
+  Caption := eTranslate.Translate('PreviewJson.Title');
 end;
 
 end.

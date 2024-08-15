@@ -1292,23 +1292,24 @@ object FrmSobre: TFrmSobre
       TabOrder = 0
       object lbVersao: TSkLabel
         Align = Center
-        Size.Width = 228.240005493164100000
-        Size.Height = 24.000000000000000000
+        Size.Width = 293.809997558593800000
+        Size.Height = 35.000000000000000000
         Size.PlatformDefault = False
         Words = <
           item
-            Font.Size = 18.000000000000000000
+            Font.Size = 26.000000000000000000
             Font.Weight = Bold
             Name = 'lbNome'
             StyledSettings = [Family, FontColor]
             Text = 'Editor4eTranslate'
           end
           item
+            Font.Slant = Italic
             Font.Stretch = Condensed
             Font.Weight = Semibold
             FontColor = xFF5E5E5E
             Name = 'lbVersaoNumber'
-            StyledSettings = [Family, Size]
+            StyledSettings = []
             Text = '  vers'#227'o 1.0.0'
           end>
       end
