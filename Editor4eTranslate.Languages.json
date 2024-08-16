@@ -27,8 +27,11 @@
                 "HintBtnRRemoveKeyValue": "Remover conjunto de chave-valores"
             },
             "ConfirmSave": "O Documento {0} foi alterado, mas suas alterações não foram salvas ainda. Deseja SALVÁ-LAS?",
-            "ConfirmDeleteGroup": "Você está prestes a apagar o grupo \/ tela {0}. Tem certeza que deseja apagá-lo?",
-            "ConfirmDeleteValue": "Você está prestes a apagar a chave de valores {0}. Tem certeza que deseja apagá-la?"
+            "ConfirmDeleteGroup": "Você está prestes a apagar o grupo ou tela {0}. Tem certeza que deseja apagá-lo?",
+            "ConfirmDeleteValue": "Você está prestes a apagar a chave de valores {0}. Tem certeza que deseja apagá-la?",
+            "OpenDlgTitle": "Abrir arquivo de Tradução {0}",
+            "SaveDlgTitle": "Salvar arquivo de Tradução {0}",
+            "StatusBarLabel": "Rota do Conteúdo Json:"
         },
         "AboutDlg": {
             "Title": "Sobre o {0}",
@@ -68,7 +71,11 @@
             "NewValueError": "Não é possível adicionar 2 ou mais chaves de valores com o mesmo nome dentro de um mesmo grupo ou janela.",
             "NewLanguageTitle": "Adicionar Novo Idioma",
             "NewLanguageBody": "Informe um novo Idioma para adicionar suporte ao seu sistema. Não use ponto final nem caracteres especiais com exceção do hífen(-) e underscore(_). Utilize o padrão, como, por exemplo, pt-BR ou en-US.",
-            "NewLanguageError": "Não é possível adicionar 2 ou mais idiomas iguais. Tente um idioma diferente."
+            "NewLanguageError": "Não é possível adicionar 2 ou mais idiomas iguais. Tente um idioma diferente.",
+            "Buttons": {
+                "BtnInsert": "&Inserir",
+                "BtnCancel": "&Cancelar"
+            }
         }
     },
     "en-US": {
@@ -98,9 +105,12 @@
                 "HintBtnAddKeyValue": "Add new collection of key-values",
                 "HintBtnRRemoveKeyValue": "Remove collection of key-values"
             },
-            "ConfirmSave": "The file {0 has been changed, but its changes haven't been saved yet. Would you like to SAVE THEM??",
+            "ConfirmSave": "The file {0} has been changed, but its changes haven't been saved yet. Would you like to SAVE THEM??",
             "ConfirmDeleteGroup": "You're about to delete the group or screen {0}. Are you sure you want to delete it?",
-            "ConfirmDeleteValue": "You're about to delete the key of values {0}. Are you sure you want to delete it?"
+            "ConfirmDeleteValue": "You're about to delete the key of values {0}. Are you sure you want to delete it?",
+            "OpenDlgTitle": "Open {0} Translate file",
+            "SaveDlgTitle": "Save {0} Translate file",
+            "StatusBarLabel": "Json Content route:"
         },
         "AboutDlg": {
             "Title": "About {0}",
@@ -140,7 +150,11 @@
             "NewValueError": "It's not possible to add 2 or more keys of values in a same screen or group with the same name.",
             "NewLanguageTitle": "Add new language",
             "NewLanguageBody": "Input a new language to add support on your software. Don't use period or special characters except hythens(-) and underscores(_). Use the standard, like, for instance, pt-BR or en-US.",
-            "NewLanguageError": "It's not possible to add 2 or more languages alike. Try a different language."
+            "NewLanguageError": "It's not possible to add 2 or more languages alike. Try a different language.",
+            "Buttons": {
+                "BtnInsert": "&Insert",
+                "BtnCancel": "&Cancel"
+            }
         }
     }
 }

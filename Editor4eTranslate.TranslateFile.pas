@@ -73,7 +73,6 @@ type
  end;
 
 const
-   Filters = 'Arquivo de tradução eTranslate|*.json|Arquivo de tradução eTranslate 2|*.eTranslate';
    DefaultExt = '*.json';
 
 implementation
@@ -85,7 +84,8 @@ uses
   System.Classes,
   Editor4eTranslate.StringGridHelper,
   Editor4eTranslate.ConfigFile,
-  eTranslate4Pascal;
+  eTranslate4Pascal,
+  Editor4eTranslate.Consts;
 
 { TTranslateFile }
 
@@ -515,6 +515,9 @@ function TTranslateFile.SaveAsFile: iTranslateFile;
 begin
   if(FilePath <> EmptyStr)then
    SaveDlg.FileName := FilePath;
+
+  SaveDlg.Filter := eTranslate.Translate('TranslateFile.Filters');
+  SaveDlg.Title  := eTranslate.Translate('Main.SaveDlgTitle', [NomeAplicativo]);
 
    if(SaveDlg.Execute)then
     begin

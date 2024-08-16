@@ -104,6 +104,7 @@ type
     function MsgConfirma(const Msg: string): boolean;
     function OpenInsertNode(const Caption, text: string; out Valor: string): boolean;
     procedure ApplySettings;
+    procedure TranslateUI;
   public
     { Public declarations }
   end;
@@ -121,7 +122,8 @@ uses
   Editor4eTranslate.frmConfig,
   FMX.DialogService,
   uViewJSON,
-  eTranslate4Pascal;
+  eTranslate4Pascal,
+  Editor4eTranslate.Shared;
 
 {$R *.fmx}
 
@@ -141,8 +143,8 @@ begin
     exit;
    end;
 
-  if(OpenInsertNode('Criar novo arquivo',
-                    'Informe o Idioma padrão inicial para adicionar suporte ao seu sistema. Não use ponto final nem caracteres especiais com exceção do hífen(-) e underscore(_). Utilize o padrão, como, por exemplo, "pt-BR" ou "en-US".',
+  if(OpenInsertNode(eTranslate.Translate('OpenInsertNode.NewFileTitle'),
+                    eTranslate.Translate('OpenInsertNode.NewFileBody'),
                     Language))then
    begin
     Language := FormatarLanguageUsandoStandard(Language);
@@ -154,7 +156,7 @@ end;
 
 procedure TFrmMain.FecharArquivo;
 begin
-  if((TranslateFile.isModified) and (MsgConfirma('O Documento "' + TranslateFile.NomeDoArquivo + '" foi alterado, mas suas alterações não foram salvas ainda. Deseja SALVÁ-LAS?')))then
+  if((TranslateFile.isModified) and (MsgConfirma(eTranslate.Translate('Main.ConfirmSave', ['"' + TranslateFile.NomeDoArquivo + '"']))))then
    TranslateFile.SaveFile;
 
   SetFrmMainCaption('');
@@ -195,6 +197,10 @@ end;
 
 procedure TFrmMain.PopMenuEstruturaPopup(Sender: TObject);
 begin
+  pmnAddScreen.Text := eTranslate.Translate('Main.LeftPanel.ContextMenu.ItemAddScreen');
+  pmnAddNo.Text     := eTranslate.Translate('Main.LeftPanel.ContextMenu.ItemAddGroup');
+  pmnDeleteNo.Text  := eTranslate.Translate('Main.LeftPanel.ContextMenu.ItemDelete');
+
   if(tvEstrutura.Selected <> nil)then
    begin
      pmnAddNo.Enabled  := True;
@@ -261,12 +267,14 @@ procedure TFrmMain.ApplySettings;
 begin
    BarraDeStatus.Visible := ConfigFile.ShowStatusBar;
    eTranslate.SetLanguage(ConfigFile.Language);
+   TranslateUI;
 end;
 
 procedure TFrmMain.btnAbrirClick(Sender: TObject);
 begin
-  dlgAbrir.Filter     := Filters;
+  dlgAbrir.Filter     := eTranslate.Translate('TranslateFile.Filters');
   dlgAbrir.DefaultExt := DefaultExt;
+  dlgAbrir.Title      := eTranslate.Translate('Main.OpenDlgTitle', [NomeAplicativo]);
 
   if(Assigned(TranslateFile))then
    FecharArquivo;
@@ -286,12 +294,12 @@ procedure TFrmMain.btnAddFormClick(Sender: TObject);
 var
   ScreenName : string;
 begin
-  if(OpenInsertNode('Adicionar Nova Tela',
-                    'Informe um nome único para a tela no seu sistema a receber um grupo de valores de tradução. Não use ponto final nem caracteres especiais com exceção do hífen(-) e underscore(_).',
+  if(OpenInsertNode(eTranslate.Translate('OpenInsertNode.NewScreenTitle'),
+                    eTranslate.Translate('OpenInsertNode.NewScreenBody'),
                     ScreenName))then
    begin
     if not TranslateFile.AddScreen(ScreenName) then
-     MsgErro('Não é possível adicionar 2 ou mais telas com o mesmo nome.');
+     MsgErro(eTranslate.Translate('OpenInsertNode.NewScreenError'));
    end;
 end;
 
@@ -299,12 +307,12 @@ procedure TFrmMain.btnAddNoClick(Sender: TObject);
 var
   ItemName : string;
 begin
-  if(OpenInsertNode('Adicionar Novo grupo de controles',
-                    'Informe um nome único para o grupo de controles da tela no seu sistema a receber um grupo de valores de tradução. Não use ponto final nem caracteres especiais com exceção do hífen(-) e underscore(_).',
+  if(OpenInsertNode(eTranslate.Translate('OpenInsertNode.NewGroupTitle'),
+                    eTranslate.Translate('OpenInsertNode.NewGroupBody'),
                     ItemName))then
    begin
     if not TranslateFile.AddItemOrSubitemToScreen(ItemName) then
-     MsgErro('Não é possível adicionar 2 ou mais grupos de controles a uma mesma tela com o mesmo nome.');
+     MsgErro(eTranslate.Translate('OpenInsertNode.NewGroupError'));
    end;
 end;
 
@@ -312,12 +320,12 @@ procedure TFrmMain.btnAddValueClick(Sender: TObject);
 var
   ItemName : string;
 begin
-  if(OpenInsertNode('Adicionar Nova chave de valores',
-                    'Informe um nome único para a chave de valores no seu sistema a receber os valores de tradução. Não use ponto final nem caracteres especiais com exceção do hífen(-) e underscore(_).',
+  if(OpenInsertNode(eTranslate.Translate('OpenInsertNode.NewValueTile'),
+                    eTranslate.Translate('OpenInsertNode.NewValueBody'),
                     ItemName))then
    begin
     if not TranslateFile.AddNewStringKey(ItemName) then
-     MsgErro('Não é possível adicionar 2 ou mais chaves de valores com o mesmo nome dentro de um mesmo grupo ou janela.');
+     MsgErro(eTranslate.Translate('OpenInsertNode.NewValueError'));
    end;
 end;
 
@@ -329,13 +337,13 @@ end;
 
 procedure TFrmMain.btnDeleteNoClick(Sender: TObject);
 begin
-  if(MsgConfirma('Você está prestes a apagar a chave de valores "' + tvEstrutura.Selected.Text + '". Tem certeza que deseja apagá-la?'))then
+  if(MsgConfirma(eTranslate.Translate('Main.ConfirmDeleteGroup', ['"' + tvEstrutura.Selected.Text + '"'])))then
    TranslateFile.RemoveScreenItemOrSubitem;
 end;
 
 procedure TFrmMain.btnDeleteValueClick(Sender: TObject);
 begin
-  if(MsgConfirma('Você está prestes a apagar a chave de valores "' + GridTabela.Cells[0, GridTabela.Selected] + '". Tem certeza que deseja apagá-la?'))then
+  if(MsgConfirma(eTranslate.Translate('Main.ConfirmDeleteValue', ['"' + GridTabela.Cells[0, GridTabela.Selected] + '"'])))then
     TranslateFile.RemoveStringKey;
 end;
 
@@ -348,13 +356,13 @@ procedure TFrmMain.btnIdiomaClick(Sender: TObject);
 var
   Language : string;
 begin
-  if(OpenInsertNode('Adicionar Novo Idioma',
-                    'Informe um novo Idioma para adicionar suporte ao seu sistema. Não use ponto final nem caracteres especiais com exceção do hífen(-) e underscore(_). Utilize o padrão, como, por exemplo, "pt-BR" ou "en-US".',
+  if(OpenInsertNode(eTranslate.Translate('OpenInsertNode.NewLanguageTitle'),
+                    eTranslate.Translate('OpenInsertNode.NewLanguageBody'),
                     Language))then
    begin
     Language := FormatarLanguageUsandoStandard(Language);
     if not TranslateFile.AddLanguage(Language) then
-     MsgErro('Não é possível adicionar 2 ou mais idiomas iguais. Tente um idioma diferente.');
+     MsgErro(eTranslate.Translate('OpenInsertNode.NewLanguageError'));
    end;
 end;
 
@@ -380,16 +388,18 @@ procedure TFrmMain.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   if(Assigned(TranslateFile))then
    begin
-    if((TranslateFile.isModified) and (MsgConfirma('O Documento "' + TranslateFile.NomeDoArquivo + '" foi alterado, mas suas alterações não foram salvas ainda. Deseja SALVÁ-LAS?')))then
+    if((TranslateFile.isModified) and (MsgConfirma(eTranslate.Translate('Main.ConfirmSave', ['"' + TranslateFile.NomeDoArquivo + '"']))))then
      TranslateFile.SaveFile;
 
     TranslateFile := nil;
    end;
   tvEstrutura.FreeOnRelease;
+  RemoveLanguageFile;
 end;
 
 procedure TFrmMain.FormCreate(Sender: TObject);
 begin
+  TranslateUI;
   SetVisibleComponents(false);
   //Ocultando por enquanto pois recurso não está pronto
   btnExportScript.Visible := False;
@@ -440,6 +450,34 @@ begin
          lbRotaJson.Text                := '';
        end;
     end;
+end;
+
+procedure TFrmMain.TranslateUI;
+begin
+  btnNovo.Hint          := eTranslate.Translate('Main.HintBtnNew');
+  btnAbrir.Hint         := eTranslate.Translate('Main.HintBtnOpen');
+  btnSalvar.Hint        := eTranslate.Translate('Main.HintBtnSave');
+  btnSalvarComo.Hint    := eTranslate.Translate('Main.HintBtnSaveAs');
+  btnFechar.Hint        := eTranslate.Translate('Main.HintBtnClose');
+  btnIdioma.Hint        := eTranslate.Translate('Main.HintBtnAddLanguage');
+  btnViewJSON.Hint      := eTranslate.Translate('Main.HintBtnViewJSON');
+  btnExportScript.Hint  := eTranslate.Translate('Main.HintBtnGenerateFiles');
+  btnConfiguracoes.Hint := eTranslate.Translate('Main.HintBtnSetup');
+  btnSobre.Hint         := eTranslate.Translate('Main.HintBtnAbout', [NomeAplicativo]);
+
+  btnAddForm.Hint       := eTranslate.Translate('Main.LeftPanel.HintBtnNewScreen');
+  btnAddNo.Hint         := eTranslate.Translate('Main.LeftPanel.HintBtnAddItem');
+  btnDeleteNo.Hint      := eTranslate.Translate('Main.LeftPanel.HintBtnRemoveItem');
+
+  btnAddValue.Hint      := eTranslate.Translate('Main.Grid.HintBtnAddKeyValue');
+  btnDeleteValue.Hint   := eTranslate.Translate('Main.Grid.HintBtnRRemoveKeyValue');
+
+  lbStatusBarExplicativo.Text := eTranslate.Translate('Main.StatusBarLabel');
+
+  if(GridTabela.ColumnCount > 0)then
+   begin
+     GridTabela.Columns[0].Header := eTranslate.Translate('Main.Grid.TextKeyColumn');
+   end;
 end;
 
 procedure TFrmMain.btnSalvarClick(Sender: TObject);

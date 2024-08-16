@@ -17,6 +17,7 @@ function VerificarItemTreeViewItem(Const TreeViewItem: TTreeViewItem; const Text
 function RemoveQuotes(const text: string) : string;
 procedure GetLanguageFileFromResources;
 function LanguageFile: string;
+procedure RemoveLanguageFile;
 
 
 implementation
@@ -47,6 +48,12 @@ begin
       RS.Free;
     end;
    end;
+end;
+
+procedure RemoveLanguageFile;
+begin
+  if(FileExists(LanguageFile))then
+   DeleteFile(PChar(LanguageFile));
 end;
 
 function RemoveQuotes(const text: string) : string;

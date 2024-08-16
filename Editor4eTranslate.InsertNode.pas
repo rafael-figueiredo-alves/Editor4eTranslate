@@ -14,6 +14,7 @@ type
     eValor: TEdit;
     LblMensagemInfo: TLabel;
     procedure FormShow(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
   public
@@ -26,6 +27,15 @@ var
 implementation
 
 {$R *.fmx}
+
+Uses
+  eTranslate4Pascal;
+
+procedure TfrmInsertNode.FormCreate(Sender: TObject);
+begin
+  btnInserir.Text  := eTranslate.Translate('OpenInsertNode.Buttons.BtnInsert');
+  btnCancelar.Text := eTranslate.Translate('OpenInsertNode.Buttons.BtnCancel');
+end;
 
 procedure TfrmInsertNode.FormShow(Sender: TObject);
 begin
